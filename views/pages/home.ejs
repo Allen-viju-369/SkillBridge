@@ -15,23 +15,25 @@
         </p>
 
         <!-- Prominent Search Bar Form -->
-        <form action="/marketplace" method="GET" class="p-2 bg-white rounded-pill shadow-sm border d-flex gap-2 mb-4" style="max-width: 580px;">
+        <form action="/marketplace" method="GET" class="p-2 hero-search-bar rounded-pill shadow-sm border d-flex gap-2 mb-4" style="max-width: 580px;">
           <div class="input-group border-0">
             <span class="input-group-text bg-transparent border-0 text-muted ps-3">
               <i class="bi bi-search"></i>
             </span>
             <input type="text" name="q" class="form-control border-0 shadow-none ps-2" placeholder="Search web dev, Figma, Python, content writing..." aria-label="Search services">
           </div>
-          <button type="submit" class="btn btn-primary-custom rounded-pill px-4">Search</button>
+          <button type="submit" class="btn btn-primary-custom rounded-pill px-4">
+            <i class="bi bi-search me-1"></i> Search
+          </button>
         </form>
 
         <!-- Quick Tags -->
         <div class="d-flex flex-wrap align-items-center gap-2 small text-muted">
           <span class="fw-semibold">Popular Skills:</span>
-          <a href="/marketplace?q=Node.js" class="badge-skill text-decoration-none">Node.js</a>
-          <a href="/marketplace?q=Figma" class="badge-skill text-decoration-none">Figma UI/UX</a>
-          <a href="/marketplace?q=Python" class="badge-skill text-decoration-none">Python</a>
-          <a href="/marketplace?q=React" class="badge-skill text-decoration-none">React</a>
+          <a href="/marketplace?q=Node.js" class="badge-skill text-decoration-none"><i class="bi bi-filetype-js text-success"></i> Node.js</a>
+          <a href="/marketplace?q=Figma" class="badge-skill text-decoration-none"><i class="bi bi-palette-fill" style="color: #9333ea;"></i> Figma UI/UX</a>
+          <a href="/marketplace?q=Python" class="badge-skill text-decoration-none"><i class="bi bi-filetype-py text-warning"></i> Python</a>
+          <a href="/marketplace?q=React" class="badge-skill text-decoration-none"><i class="bi bi-lightning-charge-fill text-info"></i> React</a>
         </div>
       </div>
 
@@ -49,11 +51,11 @@
           <div class="p-3 bg-light rounded-3 mb-3 border">
             <div class="row text-center g-2">
               <div class="col-4 border-end">
-                <div class="fs-4 fw-bold text-primary"><%= stats.totalStudents || 0 %></div>
+                <div class="fs-4 fw-bold text-primary counter-val" data-target="<%= stats.totalStudents || 0 %>"><%= stats.totalStudents || 0 %></div>
                 <div class="small text-muted" style="font-size: 0.75rem;">Registered Students</div>
               </div>
               <div class="col-4 border-end">
-                <div class="fs-4 fw-bold text-success"><%= stats.completedOrders || 0 %></div>
+                <div class="fs-4 fw-bold text-success counter-val" data-target="<%= stats.completedOrders || 0 %>"><%= stats.completedOrders || 0 %></div>
                 <div class="small text-muted" style="font-size: 0.75rem;">Completed Projects</div>
               </div>
               <div class="col-4">
@@ -86,8 +88,8 @@
       <% categories.forEach(category => { %>
         <div class="col-xl-4 col-md-6">
           <a href="/marketplace?category=<%= category.slug %>" class="text-decoration-none text-dark">
-            <div class="custom-card p-3 h-100 d-flex align-items-center gap-3">
-              <div class="rounded-3 bg-primary-subtle text-primary p-3 fs-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px;">
+            <div class="custom-card category-card-item p-3 h-100 d-flex align-items-center gap-3">
+              <div class="rounded-3 cat-icon-box p-3 fs-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px;">
                 <i class="bi <%= category.icon %>"></i>
               </div>
               <div>
