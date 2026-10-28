@@ -39,7 +39,8 @@ const connectDB = async () => {
   connectingPromise = (async () => {
     const primaryUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/skillbridge';
     const isTest = process.env.NODE_ENV === 'test';
-    let shouldUseEmbedded = process.env.USE_EMBEDDED_DB_FALLBACK === 'true';
+    const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+    let shouldUseEmbedded = !isProduction && process.env.USE_EMBEDDED_DB_FALLBACK === 'true';
 
     // Check if localhost 27017 is open
     if (!isTest && (primaryUri.includes('127.0.0.1:27017') || primaryUri.includes('localhost:27017'))) {
@@ -52,20 +53,27 @@ const connectDB = async () => {
           shouldUseEmbedded = false;
         } catch (err) {
           console.warn(`[Database] Native connection failed: ${err.message}`);
-          shouldUseEmbedded = true;
+          shouldUseEmbedded = !isProduction;
         }
       } else {
         console.log('[Database] Native MongoDB service not found at port 27017.');
-        shouldUseEmbedded = true;
+        shouldUseEmbedded = !isProduction;
       }
     } else if (!isTest) {
       try {
-        await mongoose.connect(primaryUri);
+        await mongoose.connect(primaryUri, {
+          serverSelectionTimeoutMS: 8000,
+          maxPoolSize: 10
+        });
         activeMongoUri = primaryUri;
-        console.log(`[Database] Connected to external MongoDB at: ${primaryUri}`);
+        const sanitized = primaryUri.includes('@') ? '***@' + primaryUri.split('@')[1] : primaryUri;
+        console.log(`[Database] Connected to MongoDB Atlas: ${sanitized}`);
         shouldUseEmbedded = false;
       } catch (err) {
-        console.warn(`[Database] External connection failed: ${err.message}`);
+        console.error(`[Database] MongoDB Atlas connection failed: ${err.message}`);
+        if (isProduction) {
+          throw err;
+        }
         shouldUseEmbedded = true;
       }
     } else {

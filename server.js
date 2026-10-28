@@ -26,10 +26,33 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust reverse proxy for secure cookies (required for Vercel & HTTPS proxies)
+app.set('trust proxy', 1);
+
 // Connect to Database if not in automated test environment
 if (process.env.NODE_ENV !== 'test') {
   connectDB().catch(err => {
     console.error('[Fatal] Database startup failed:', err);
+  });
+}
+
+// Ensure database connection is established for serverless / Vercel invocations
+if (process.env.NODE_ENV !== 'test') {
+  const mongoose = require('mongoose');
+  app.use(async (req, res, next) => {
+    try {
+      if (mongoose.connection.readyState !== 1) {
+        await connectDB();
+      }
+      next();
+    } catch (err) {
+      console.error('[Database Middleware Error]', err);
+      return res.status(500).render('pages/error', {
+        title: 'Database Unavailable',
+        statusCode: 500,
+        message: 'Could not connect to the database. Please verify your MONGODB_URI connection string.'
+      });
+    }
   });
 }
 
