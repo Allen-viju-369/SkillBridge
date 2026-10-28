@@ -34,7 +34,7 @@ const getHome = async (req, res) => {
     ]);
 
     const totalRatingsSum = reviews.reduce((acc, curr) => acc + curr.rating, 0);
-    const platformAvgRating = reviews.length > 0 ? (totalRatingsSum / reviews.length).toFixed(1) : '5.0';
+    const platformAvgRating = reviews.length > 0 ? (totalRatingsSum / reviews.length).toFixed(1) : '0.0';
 
     res.render('pages/home', {
       title: 'SkillBridge — Freelance Student Marketplace',

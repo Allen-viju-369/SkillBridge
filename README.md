@@ -4,7 +4,7 @@
 [![Express.js](https://img.shields.io/badge/Express.js-v4.21+-blue.svg)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose%20v8-brightgreen.svg)](https://www.mongodb.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-v5.3.3-purple.svg)](https://getbootstrap.com/)
-[![Tests](https://img.shields.io/badge/Automated%20Tests-16%20Passing-success.svg)](#automated-testing)
+[![Tests](https://img.shields.io/badge/Automated%20Tests-19%20Passing-success.svg)](#automated-testing)
 [![Academic Project](https://img.shields.io/badge/Course-Web%20Technology%20III%20IA3-orange.svg)](#academic-evaluation)
 
 > **SkillBridge** is a full-stack, responsive web marketplace designed specifically for university ecosystems. It empowers talented students to publish freelance services, showcase verified portfolios, receive client project requests, track multi-stage order milestones, and build credibility through authentic reviews and the **Student Skill Passport**.
@@ -14,7 +14,7 @@
 ## 🌟 Distinctive Innovation: Student Skill Passport
 
 Unlike conventional freelance platforms that rely on unverified claims, SkillBridge introduces the **Student Skill Passport**:
-1. **Verifiable Academic Identity**: Displays verified university affiliation, degree program, and year of study.
+1. **Verifiable Academic Identity**: Displays university affiliation, degree program, and year of study.
 2. **Administrator Verified Badge**: Awarded exclusively through an administrative audit of student credentials.
 3. **Database-Backed Project Count**: Dynamically aggregates completed orders from verified MongoDB records.
 4. **Authentic Rating Breakdown**: Computes 1–5 star distributions strictly from clients who commissioned and completed real orders.
@@ -42,14 +42,14 @@ graph TD
     MongooseODM <--> MongoDB[(MongoDB Database)]
 ```
 
-### Technology Justification
+### Technology Highlights
 - **Backend (Node.js & Express.js)**: Event-driven, asynchronous I/O runtime offering fast response times and straightforward MVC modularity.
 - **Database (MongoDB with Mongoose)**: Flexible document model ideally suited for nested portfolio links, dynamic review calculations, and referential integrity. Includes automatic zero-setup embedded fallback for testing.
 - **Templating (EJS + express-ejs-layouts)**: Server-rendered architecture eliminating SPA hydration overhead while keeping code understandable for academic viva demonstrations.
 - **Security**:
   - `bcryptjs`: Adaptive one-way password hashing with salt rounds.
   - `express-session`: HTTP-only, SameSite session cookies.
-  - Custom Cryptographic CSRF Protection: Validates tokens on all state-mutating requests (`POST`, `PUT`, `DELETE`).
+  - Cryptographic CSRF Protection: Validates tokens on all state-mutating requests (`POST`, `PUT`, `DELETE`).
   - `helmet`: Secure HTTP response headers and Content Security Policy (CSP).
   - `express-rate-limit`: Prevents brute-force credential stuffing attacks on authentication endpoints.
 
@@ -90,12 +90,12 @@ stateDiagram-v2
 
 ---
 
-## ⚡ Quick Start & Installation
+## ⚡ Quick Start & Setup Guide
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v18.0.0 or higher, tested on v24.19.0)
 - [npm](https://www.npmjs.com/) (v9.0.0 or higher)
-- *(Optional)* Local MongoDB or MongoDB Atlas URI. **If local MongoDB is not running, SkillBridge automatically starts an embedded in-memory MongoDB instance with zero configuration required!**
+- *(Optional)* Local MongoDB or MongoDB Atlas URI. If local MongoDB is not running, SkillBridge automatically starts an embedded in-memory MongoDB instance with zero configuration required.
 
 ### 1. Clone the Repository
 ```bash
@@ -113,22 +113,35 @@ Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
-Default `.env` configuration:
+Configure your server and initial administrator credentials in `.env`:
 ```env
 PORT=3000
 NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/skillbridge
 USE_EMBEDDED_DB_FALLBACK=true
-SESSION_SECRET=skillbridge_super_secret_session_key_2026_dev
+SESSION_SECRET=your_super_secret_session_key_here
+
+# Initial Administrator Account Setup (used by: npm run create-admin)
+ADMIN_NAME=Platform Administrator
+ADMIN_EMAIL=admin@university.edu
+ADMIN_PASSWORD=your_secure_admin_password
 ```
 
-### 4. Seed the Database
+### 4. Seed Base Service Categories
+Initialize the marketplace disciplines:
 ```bash
 npm run seed
 ```
-*(Note: If running on a clean database, `npm start` will automatically seed the database on initial launch!)*
+*(This seeds required base categories only. No demo users, services, or fake reviews are created).*
 
-### 5. Run the Application
+### 5. Create Initial Administrator Account
+Set up the platform administrator using your `.env` credentials:
+```bash
+npm run create-admin
+```
+*(Public registration allows only Student Freelancers and Clients. Administrators can only be created via this secure script).*
+
+### 6. Start the Application
 ```bash
 npm start
 ```
@@ -136,15 +149,17 @@ Open your browser at **[http://localhost:3000](http://localhost:3000)**.
 
 ---
 
-## 🔑 Pre-Configured Demo Credentials for Viva
+## 📝 Real Registration & Authentication Flow
 
-For fast presentation and viva demonstrations, the login screen provides one-click quick-fill buttons:
-
-| Role | Email | Password | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@skillbridge.edu` | `AdminPassword123!` | User moderation, category creation, student verification badge issuance |
-| **Student Freelancer** | `aarav@student.edu` | `StudentPass123!` | Service creation, accept incoming requests, work delivery submission |
-| **Client** | `vikram@client.com` | `ClientPass123!` | Commissioning services, approving deliverables, submitting reviews |
+1. **User Registration (`/register`):**
+   - Direct link: [http://localhost:3000/register](http://localhost:3000/register)
+   - Choose role: **Student Freelancer** or **Client** (no public admin registration).
+   - Enter full name, valid email, and secure password (minimum 8 characters).
+   - Server validates all inputs, hashes the password with bcrypt, and redirects to `/login` with a success confirmation message.
+2. **User Login (`/login`):**
+   - Direct link: [http://localhost:3000/login](http://localhost:3000/login)
+   - Secure server-side sessions with CSRF protection and brute-force rate limiting.
+   - Redirects students to their **Freelancer Studio** (`/dashboard/freelancer`), clients to their **Client Project Hub** (`/dashboard/client`), and admins to the **Administrator Hub** (`/admin`).
 
 ---
 
@@ -153,7 +168,8 @@ For fast presentation and viva demonstrations, the login screen provides one-cli
 SkillBridge includes a comprehensive automated test suite testing:
 - Public routes & health endpoints
 - Password hashing & verification
-- User registration & duplicate email rejection
+- User registration, minimum 8-character password enforcement, and duplicate email rejection
+- Public admin role tampering rejection
 - Session authentication & invalid login rejection
 - Role-based authorization & 403 Forbidden handling
 - Service creation & multi-criteria filtering
@@ -166,16 +182,19 @@ Run tests anytime with:
 npm test
 ```
 
-### Actual Test Results
+### Actual Test Output
 ```text
 ====================================================
 🧪 Starting SkillBridge Full-Stack Automated Test Suite
 ====================================================
   ✅ PASS: GET /health returns HTTP 200 with UP status
-  ✅ PASS: GET / loads landing page with title and HTTP 200
+  ✅ PASS: GET / loads landing page with title and HTTP 200 (Clean Empty State support)
   ✅ PASS: GET /marketplace loads services list with HTTP 200
+  ✅ PASS: GET /login and GET /register top-level aliases redirect properly
   ✅ PASS: Password Hashing generates bcrypt salt and verifies match
-  ✅ PASS: POST /auth/register creates user account and rejects duplicate email
+  ✅ PASS: POST /auth/register validates min 8-char password and rejects short passwords
+  ✅ PASS: POST /auth/register rejects public admin role tampering
+  ✅ PASS: POST /auth/register creates student account, rejects duplicate email, and redirects to login
   ✅ PASS: POST /auth/login validates credentials and creates session
   ✅ PASS: POST /auth/login rejects invalid password
   ✅ PASS: Unauthenticated access to /admin redirects to login
@@ -188,7 +207,7 @@ npm test
   ✅ PASS: Client can post verified 1-5 star review for completed order; duplicate review rejected
   ✅ PASS: Skill Matcher accurately calculates set-overlap percentage
 ====================================================
-📊 Test Summary: 16 Passed, 0 Failed
+📊 Test Summary: 19 Passed, 0 Failed
 ====================================================
 ```
 
@@ -222,7 +241,7 @@ skillbridge/
 │   └── User.js               # User accounts & bcrypt password helper
 ├── public/
 │   ├── css/styles.css        # Custom design system tokens & styles
-│   ├── js/main.js            # Client-side validation & demo autofill
+│   ├── js/main.js            # Client-side validation & UI handlers
 │   └── images/               # Vector SVG assets & avatars
 ├── routes/
 │   ├── adminRoutes.js        # Admin endpoints
@@ -234,7 +253,8 @@ skillbridge/
 │   ├── reviewRoutes.js       # Review posting
 │   └── serviceRoutes.js      # Service listings
 ├── scripts/
-│   └── seed.js               # Realistic initial university data
+│   ├── seed.js               # Base category data seeding
+│   └── createAdmin.js        # Secure initial admin account creation script
 ├── tests/
 │   └── run-tests.js          # Automated end-to-end test suite
 ├── views/

@@ -7,7 +7,7 @@ const User = require('../models/User');
 
 const getLogin = (req, res) => {
   res.render('pages/login', {
-    title: 'Login to SkillBridge',
+    title: 'Login — SkillBridge',
     returnTo: req.query.returnTo || ''
   });
 };
@@ -85,27 +85,38 @@ const postRegister = async (req, res) => {
   const { name, email, password, confirmPassword, role, college, degree, skills } = req.body;
 
   try {
-    // 1. Validation
+    // 1. Validate required fields
     if (!name || !email || !password || !confirmPassword || !role) {
       req.flash('error', 'All required fields must be filled.');
       return res.redirect('/auth/register');
     }
 
+    // 2. Validate email format
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email.trim())) {
+      req.flash('error', 'Please provide a valid email address.');
+      return res.redirect('/auth/register');
+    }
+
+    // 3. Validate role (strictly student or client - reject admin or tampered role)
     if (!['student', 'client'].includes(role)) {
-      req.flash('error', 'Invalid role selected. Public registration allows Student or Client only.');
+      req.flash('error', 'Invalid role selected. Public registration allows Student Freelancer or Client only.');
       return res.redirect('/auth/register');
     }
 
-    if (password.length < 6) {
-      req.flash('error', 'Password must be at least 6 characters long.');
+    // 4. Validate password length (minimum 8 characters)
+    if (password.length < 8) {
+      req.flash('error', 'Password must be at least 8 characters long.');
       return res.redirect('/auth/register');
     }
 
+    // 5. Validate password match
     if (password !== confirmPassword) {
       req.flash('error', 'Passwords do not match.');
       return res.redirect('/auth/register');
     }
 
+    // 6. Check unique email
     const normalizedEmail = email.toLowerCase().trim();
     const existing = await User.findOne({ email: normalizedEmail });
     if (existing) {
@@ -113,17 +124,17 @@ const postRegister = async (req, res) => {
       return res.redirect('/auth/login');
     }
 
-    // 2. Hash password securely
+    // 7. Hash password securely with bcrypt
     const passwordHash = await User.hashPassword(password);
 
-    // 3. Process skills array if student
+    // 8. Process skills array if student
     let parsedSkills = [];
     if (skills && typeof skills === 'string') {
       parsedSkills = skills.split(',').map(s => s.trim()).filter(Boolean);
     }
 
-    // 4. Create user
-    const newUser = await User.create({
+    // 9. Create user record
+    await User.create({
       name: name.trim(),
       email: normalizedEmail,
       passwordHash,
@@ -134,30 +145,9 @@ const postRegister = async (req, res) => {
       profileImage: `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(normalizedEmail)}`
     });
 
-    // 5. Establish session
-    req.session.regenerate((err) => {
-      if (err) {
-        req.flash('success', 'Registration successful! Please log in.');
-        return res.redirect('/auth/login');
-      }
-
-      req.session.user = {
-        _id: newUser._id.toString(),
-        name: newUser.name,
-        email: newUser.email,
-        role: newUser.role,
-        profileImage: newUser.profileImage,
-        isVerified: newUser.isVerified
-      };
-
-      req.flash('success', `Welcome to SkillBridge, ${newUser.name}! Your account has been created.`);
-
-      if (newUser.role === 'student') {
-        res.redirect('/dashboard/freelancer');
-      } else {
-        res.redirect('/dashboard/client');
-      }
-    });
+    // 10. Redirect to login page with success message (do not auto-login)
+    req.flash('success', 'Registration successful! Please log in with your credentials.');
+    return res.redirect('/auth/login');
 
   } catch (error) {
     console.error('[postRegister Error]', error);

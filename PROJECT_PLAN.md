@@ -81,8 +81,8 @@ stateDiagram-v2
   - `/marketplace` (Search, Filters, Sort, Grid of Services)
   - `/marketplace/:id` (Detailed Service View + Freelancer mini-profile + Skill Matcher + Request CTA)
   - `/freelancers/:id` (Student Skill Passport & Portfolio & Client Reviews)
-  - `/auth/login` (Login form with demo quick-fill credentials)
-  - `/auth/register` (Registration form with role choice)
+  - `/auth/login` (Login form with link to registration)
+  - `/auth/register` (Registration form with Student Freelancer or Client role choice)
 - **Student Dashboard (`/dashboard/freelancer`):**
   - Active Service Listings & Create New Service (`/services/create`, `/services/:id/edit`)
   - Order Management (`/orders/freelancer`): Incoming requests, update status, deliver work

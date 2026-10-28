@@ -12,23 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 6000);
   });
 
-  // 2. Quick Demo Login Autofill Helpers
-  const fillButtons = document.querySelectorAll('[data-demo-email]');
-  fillButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const email = btn.getAttribute('data-demo-email');
-      const pass = btn.getAttribute('data-demo-pass');
-      const emailInput = document.getElementById('loginEmail');
-      const passInput = document.getElementById('loginPassword');
-      if (emailInput && passInput) {
-        emailInput.value = email;
-        passInput.value = pass;
-        emailInput.classList.add('is-valid');
-        passInput.classList.add('is-valid');
-      }
-    });
-  });
 
   // 3. Price Filter Slider Synchronization
   const priceRange = document.getElementById('priceRangeSlider');

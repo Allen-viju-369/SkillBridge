@@ -51,7 +51,7 @@ const runAllTests = async () => {
     assert.strictEqual(res.body.status, 'UP');
   });
 
-  await test('GET / loads landing page with title and HTTP 200', async () => {
+  await test('GET / loads landing page with title and HTTP 200 (Clean Empty State support)', async () => {
     const res = await request(app).get('/');
     assert.strictEqual(res.statusCode, 200);
     assert(res.text.includes('SkillBridge'));
@@ -63,9 +63,23 @@ const runAllTests = async () => {
     assert(res.text.includes('Browse Freelance Services'));
   });
 
-  // 2. Authentication & Security Tests
+  await test('GET /login and GET /register top-level aliases redirect properly', async () => {
+    const loginRes = await request(app).get('/login');
+    assert.strictEqual(loginRes.statusCode, 302);
+    assert(loginRes.headers.location.includes('/auth/login'));
+
+    const regRes = await request(app).get('/register');
+    assert.strictEqual(regRes.statusCode, 302);
+    assert(regRes.headers.location.includes('/auth/register'));
+  });
+
+  // 2. Authentication & Password Security Tests
   console.log('\n--- 2. Authentication & Password Security Tests ---');
-  let testUserEmail = `test.student.${Date.now()}@university.edu`;
+  const timestamp = Date.now();
+  const testStudentEmail = `student.${timestamp}@university.edu`;
+  const testClientEmail = `client.${timestamp}@university.edu`;
+  const testAdminEmail = `admin.${timestamp}@university.edu`;
+  const securePassword = 'SecurePassword123!';
 
   await test('Password Hashing generates bcrypt salt and verifies match', async () => {
     const rawPass = 'StudentSecurePassword123!';
@@ -85,39 +99,83 @@ const runAllTests = async () => {
     assert.strictEqual(noMatch, false);
   });
 
-  await test('POST /auth/register creates user account and rejects duplicate email', async () => {
-    // First register
+  await test('POST /auth/register validates min 8-char password and rejects short passwords', async () => {
+    const shortRes = await request(app)
+      .post('/auth/register')
+      .set('x-test-bypass-csrf', 'true')
+      .send({
+        name: 'Short Pass User',
+        email: `short.${Date.now()}@univ.edu`,
+        password: 'short',
+        confirmPassword: 'short',
+        role: 'student'
+      });
+    assert.strictEqual(shortRes.statusCode, 302);
+    assert(shortRes.headers.location.includes('/auth/register'));
+  });
+
+  await test('POST /auth/register rejects public admin role tampering', async () => {
+    const adminTamperRes = await request(app)
+      .post('/auth/register')
+      .set('x-test-bypass-csrf', 'true')
+      .send({
+        name: 'Fake Admin User',
+        email: `fakeadmin.${Date.now()}@univ.edu`,
+        password: securePassword,
+        confirmPassword: securePassword,
+        role: 'admin'
+      });
+    assert.strictEqual(adminTamperRes.statusCode, 302);
+    assert(adminTamperRes.headers.location.includes('/auth/register'));
+  });
+
+  await test('POST /auth/register creates student account, rejects duplicate email, and redirects to login', async () => {
+    // 1. Register student
     const regRes = await request(app)
       .post('/auth/register')
       .set('x-test-bypass-csrf', 'true')
       .send({
-        name: 'Auto Test Student',
-        email: testUserEmail,
-        password: 'Password123!',
-        confirmPassword: 'Password123!',
+        name: 'Test Student Freelancer',
+        email: testStudentEmail,
+        password: securePassword,
+        confirmPassword: securePassword,
         role: 'student',
-        college: 'Test Institute of Tech',
-        skills: 'JavaScript, Node.js, Express'
+        college: 'Test Institute of Technology',
+        degree: 'B.Tech CSE',
+        skills: 'JavaScript, Node.js, Express, MongoDB'
       });
-    assert([302, 200].includes(regRes.statusCode));
+    assert.strictEqual(regRes.statusCode, 302);
+    assert(regRes.headers.location.includes('/auth/login'));
 
-    const created = await User.findOne({ email: testUserEmail });
+    const created = await User.findOne({ email: testStudentEmail });
     assert(created !== null, 'User should exist in MongoDB');
     assert.strictEqual(created.role, 'student');
 
-    // Duplicate email registration must be rejected
+    // 2. Duplicate registration rejected
     const dupRes = await request(app)
       .post('/auth/register')
       .set('x-test-bypass-csrf', 'true')
       .send({
         name: 'Duplicate Student',
-        email: testUserEmail,
-        password: 'Password123!',
-        confirmPassword: 'Password123!',
+        email: testStudentEmail,
+        password: securePassword,
+        confirmPassword: securePassword,
         role: 'student'
       });
     assert.strictEqual(dupRes.statusCode, 302);
     assert(dupRes.headers.location.includes('/auth/login'));
+
+    // Also register a client account for order workflow tests
+    await request(app)
+      .post('/auth/register')
+      .set('x-test-bypass-csrf', 'true')
+      .send({
+        name: 'Test Client Commissioner',
+        email: testClientEmail,
+        password: securePassword,
+        confirmPassword: securePassword,
+        role: 'client'
+      });
   });
 
   await test('POST /auth/login validates credentials and creates session', async () => {
@@ -126,8 +184,8 @@ const runAllTests = async () => {
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
       .send({
-        email: testUserEmail,
-        password: 'Password123!'
+        email: testStudentEmail,
+        password: securePassword
       });
     assert.strictEqual(loginRes.statusCode, 302);
     assert(loginRes.headers.location.includes('/dashboard/freelancer'));
@@ -138,7 +196,7 @@ const runAllTests = async () => {
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
       .send({
-        email: testUserEmail,
+        email: testStudentEmail,
         password: 'CompletelyWrongPassword'
       });
     assert.strictEqual(res.statusCode, 302);
@@ -147,6 +205,16 @@ const runAllTests = async () => {
 
   // 3. Role-Based Access Control (RBAC)
   console.log('\n--- 3. Role-Based Authorization Tests ---');
+  // Create an admin user directly for test purposes
+  const adminPasswordHash = await User.hashPassword(securePassword);
+  await User.create({
+    name: 'Test Administrator',
+    email: testAdminEmail,
+    passwordHash: adminPasswordHash,
+    role: 'admin',
+    isVerified: true
+  });
+
   await test('Unauthenticated access to /admin redirects to login', async () => {
     const res = await request(app).get('/admin');
     assert.strictEqual(res.statusCode, 302);
@@ -158,7 +226,7 @@ const runAllTests = async () => {
     await studentAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'aarav@student.edu', password: 'StudentPass123!' });
+      .send({ email: testStudentEmail, password: securePassword });
 
     const adminAccessRes = await studentAgent.get('/admin');
     assert.strictEqual(adminAccessRes.statusCode, 403);
@@ -169,7 +237,7 @@ const runAllTests = async () => {
     await adminAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'admin@skillbridge.edu', password: 'AdminPassword123!' });
+      .send({ email: testAdminEmail, password: securePassword });
 
     const adminRes = await adminAgent.get('/admin');
     assert.strictEqual(adminRes.statusCode, 200);
@@ -185,10 +253,10 @@ const runAllTests = async () => {
     await studentAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'aarav@student.edu', password: 'StudentPass123!' });
+      .send({ email: testStudentEmail, password: securePassword });
 
     const cat = await Category.findOne();
-    assert(cat !== null);
+    assert(cat !== null, 'Category base data should exist');
 
     const srvRes = await studentAgent
       .post('/services')
@@ -224,7 +292,7 @@ const runAllTests = async () => {
     await clientAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'vikram@client.com', password: 'ClientPass123!' });
+      .send({ email: testClientEmail, password: securePassword });
 
     const futureDate = new Date();
     futureDate.setDate(futureDate.getDate() + 7);
@@ -249,7 +317,7 @@ const runAllTests = async () => {
     await studentAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'aarav@student.edu', password: 'StudentPass123!' });
+      .send({ email: testStudentEmail, password: securePassword });
 
     // Step 1: Student accepts order
     await studentAgent
@@ -285,7 +353,7 @@ const runAllTests = async () => {
     await clientAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'vikram@client.com', password: 'ClientPass123!' });
+      .send({ email: testClientEmail, password: securePassword });
 
     await clientAgent
       .post(`/orders/${testOrderId}/status`)
@@ -301,7 +369,7 @@ const runAllTests = async () => {
     await clientAgent
       .post('/auth/login')
       .set('x-test-bypass-csrf', 'true')
-      .send({ email: 'vikram@client.com', password: 'ClientPass123!' });
+      .send({ email: testClientEmail, password: securePassword });
 
     // Post first review
     const reviewRes = await clientAgent

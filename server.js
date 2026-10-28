@@ -95,6 +95,16 @@ app.use(csrfProtection);
 // Global Template Locals (User session, flash alerts, formatting helpers)
 app.use(setLocals);
 
+// Top-level Auth aliases
+app.get('/login', (req, res) => {
+  const queryStr = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+  res.redirect(`/auth/login${queryStr}`);
+});
+app.get('/register', (req, res) => {
+  const queryStr = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+  res.redirect(`/auth/register${queryStr}`);
+});
+
 // Mount Application Routes
 app.use('/', homeRoutes);
 app.use('/auth', authRoutes);
@@ -143,9 +153,6 @@ if (require.main === module) {
     console.log(`\n======================================================`);
     console.log(`🚀 SkillBridge Marketplace is live at: http://localhost:${PORT}`);
     console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`   Demo Admin Login: admin@skillbridge.edu / AdminPassword123!`);
-    console.log(`   Demo Student Login: aarav@student.edu / StudentPass123!`);
-    console.log(`   Demo Client Login: vikram@client.com / ClientPass123!`);
     console.log(`======================================================\n`);
   });
 }

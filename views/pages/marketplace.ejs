@@ -174,11 +174,21 @@
 
       <% } else { %>
         <!-- Empty State -->
-        <div class="text-center py-5 bg-white rounded-3 border">
-          <div class="display-4 text-muted mb-3"><i class="bi bi-search"></i></div>
-          <h4 class="fw-bold mb-2">No Matching Services Found</h4>
-          <p class="text-muted small mb-4">Try adjusting your keyword search, removing filters, or broadening your budget.</p>
-          <a href="/marketplace" class="btn btn-outline-custom">Reset Search Filters</a>
+        <div class="text-center py-5 bg-white rounded-4 border shadow-sm">
+          <div class="display-4 text-muted mb-3"><i class="bi bi-briefcase"></i></div>
+          <% if (query && (query.q || query.category || query.maxPrice || query.maxDelivery)) { %>
+            <h4 class="fw-bold mb-2">No Matching Services Found</h4>
+            <p class="text-muted small mb-4">Try adjusting your keyword search, removing filters, or broadening your budget.</p>
+            <a href="/marketplace" class="btn btn-outline-custom">Reset Search Filters</a>
+          <% } else { %>
+            <h4 class="fw-bold mb-2">No services yet. Be the first to post one!</h4>
+            <p class="text-muted small mb-4">Join as a student freelancer and publish your freelance packages to get hired.</p>
+            <% if (isStudent) { %>
+              <a href="/services/create" class="btn btn-primary-custom btn-sm"><i class="bi bi-plus-lg me-1"></i>Post a Service</a>
+            <% } else { %>
+              <a href="/auth/register?role=student" class="btn btn-primary-custom btn-sm"><i class="bi bi-person-plus me-1"></i>Become a Student Freelancer</a>
+            <% } %>
+          <% } %>
         </div>
       <% } %>
     </div>

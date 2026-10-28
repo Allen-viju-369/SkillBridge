@@ -23,13 +23,13 @@ When the examiner asks for a live demonstration, follow this exact sequence:
    - Point out the **Verified Skill Passport Ribbon**, college credentials, verified completed orders count, 5-star rating breakdown, and portfolio links.
 
 4. **Step 4: Role-Based Order Progression Lifecycle**
-   - Click **Log In** and use the quick-fill button for **Client** (`vikram@client.com`).
-   - Go to Client Hub (`/dashboard/client`). Show active commissions.
+   - Click **Sign Up** (`/register`) to register as a student freelancer or client, or **Log In** (`/login`) with registered credentials.
+   - Go to Client Hub (`/dashboard/client`) or Freelancer Studio (`/dashboard/freelancer`). Show commission workflow.
    - Explain the 5-stage order workflow: `Pending` → `Accepted` → `In Progress` → `Delivered` → `Completed`.
    - Show that reviews can **only** be submitted once an order is approved as `Completed`.
 
 5. **Step 5: Administrator Control Hub (`/admin`)**
-   - Log in with the **Admin** demo button (`admin@skillbridge.edu`).
+   - Log in using the admin account created via `npm run create-admin` (configured securely in `.env`).
    - Show the Admin Hub with platform KPIs, User Directory, Service Moderation, and Category Management.
    - Click **Verify** on a student to show how the **Skill Passport Badge** is granted.
 
