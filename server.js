@@ -138,11 +138,16 @@ app.use('/', reviewRoutes);
 app.use('/profile', profileRoutes);
 app.use('/admin', adminRoutes);
 
-// Health check endpoint
+// Health check endpoint with live database connection diagnostic
 app.get('/health', (req, res) => {
+  const mongoose = require('mongoose');
+  const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
   res.status(200).json({
     status: 'UP',
-    uptime: process.uptime(),
+    database: states[mongoose.connection.readyState] || 'unknown',
+    databaseName: mongoose.connection.name || 'none',
+    databaseHost: mongoose.connection.host || 'unknown',
+    uptime: `${Math.floor(process.uptime())}s`,
     timestamp: new Date().toISOString()
   });
 });

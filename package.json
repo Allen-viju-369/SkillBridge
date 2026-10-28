@@ -8,6 +8,7 @@
     "dev": "node server.js",
     "seed": "node scripts/seed.js",
     "create-admin": "node scripts/createAdmin.js",
+    "test-db": "node scripts/testDb.js",
     "test": "node tests/run-tests.js"
   },
   "keywords": [
