@@ -24,7 +24,7 @@
 
         <!-- Service Thumbnail Image -->
         <div class="rounded-3 overflow-hidden mb-4 border">
-          <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="w-100" style="max-height: 400px; object-fit: cover;">
+          <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="w-100" style="max-height: 400px; object-fit: cover;" loading="lazy" onerror="this.onerror=null;this.src='/images/default-service.svg';">
         </div>
 
         <!-- Description -->
@@ -103,7 +103,7 @@
           <div class="row g-3">
             <% relatedServices.forEach(rel => { %>
               <div class="col-md-4">
-                <div class="custom-card p-3 h-100 d-flex flex-column">
+                <div class="custom-card position-relative p-3 h-100 d-flex flex-column">
                   <h6 class="fw-bold mb-2">
                     <a href="/marketplace/<%= rel._id %>" class="text-decoration-none text-dark stretched-link">
                       <%= rel.title %>

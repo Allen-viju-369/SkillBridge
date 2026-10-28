@@ -99,9 +99,9 @@
         <div class="row g-4">
           <% services.forEach(service => { %>
             <div class="col-md-6 col-xl-4">
-              <div class="custom-card h-100 d-flex flex-column">
-                <div class="position-relative">
-                  <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="service-card-img w-100">
+              <div class="custom-card position-relative h-100 d-flex flex-column">
+                <div class="position-relative overflow-hidden">
+                  <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="service-card-img w-100" loading="lazy" onerror="this.onerror=null;this.src='/images/default-service.svg';">
                   <span class="badge bg-dark bg-opacity-75 text-white position-absolute top-0 end-0 m-2 small">
                     <i class="bi bi-clock me-1"></i><%= service.deliveryDays %>d
                   </span>

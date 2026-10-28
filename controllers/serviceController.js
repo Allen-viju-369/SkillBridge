@@ -1,6 +1,15 @@
 const Service = require('../models/Service');
 const Category = require('../models/Category');
 
+const sanitizeThumbnailUrl = (url) => {
+  if (!url || typeof url !== 'string') return '/images/default-service.svg';
+  const trimmed = url.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('/images/')) {
+    return trimmed;
+  }
+  return '/images/default-service.svg';
+};
+
 /**
  * Service Controller
  * CRUD operations for student freelancer service listings.
@@ -61,10 +70,8 @@ const postCreateService = async (req, res) => {
       skillsList = skills.split(',').map(s => s.trim()).filter(Boolean);
     }
 
-    // Default icon/thumbnail based on category if none specified
-    const defaultThumbnail = thumbnailUrl && thumbnailUrl.trim() 
-      ? thumbnailUrl.trim() 
-      : '/images/default-service.svg';
+    // Default icon/thumbnail based on category if none specified or invalid
+    const defaultThumbnail = sanitizeThumbnailUrl(thumbnailUrl);
 
     const newService = await Service.create({
       title: title.trim(),
@@ -162,8 +169,8 @@ const postUpdateService = async (req, res) => {
     service.description = description.trim();
     service.skills = skillsList;
     service.isActive = isActive === 'on' || isActive === 'true' || isActive === true;
-    if (thumbnailUrl && thumbnailUrl.trim()) {
-      service.thumbnailUrl = thumbnailUrl.trim();
+    if (thumbnailUrl !== undefined) {
+      service.thumbnailUrl = sanitizeThumbnailUrl(thumbnailUrl);
     }
 
     await service.save();
