@@ -1,6 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" fill="none">
-  <rect width="40" height="40" rx="10" fill="#4F46E5"/>
-  <path d="M12 28L18 12L24 20L28 14L32 28H12Z" fill="#ffffff" fill-opacity="0.95"/>
-  <circle cx="28" cy="14" r="2.5" fill="#06B6D4"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="sbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="sbAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Rect -->
+  <rect width="48" height="48" rx="12" fill="url(#sbGrad)" />
+  <!-- Bridge Curve -->
+  <path d="M10 34 C18 24, 30 24, 38 34" stroke="url(#sbAccent)" stroke-width="3" stroke-linecap="round" fill="none" />
+  <!-- Graduate Cap / Diamond Motif -->
+  <path d="M24 14 L36 20 L24 26 L12 20 Z" fill="#FFFFFF" />
+  <path d="M18 23.5 V29 C18 31.5, 30 31.5, 30 29 V23.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none" />
+  <!-- Accent Star / Compass Node -->
+  <circle cx="36" cy="20" r="2.5" fill="#F59E0B" />
 </svg>

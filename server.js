@@ -72,8 +72,14 @@ app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 app.use(express.json({ limit: '2mb' }));
 app.use(methodOverride('_method'));
 
-// Static assets
-app.use(express.static(path.join(__dirname, 'public')));
+// Static assets with explicit SVG mime handling
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.svg')) {
+      res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+    }
+  }
+}));
 
 // Session Management with MongoDB store (or fallback in-memory)
 const sessionOptions = {
