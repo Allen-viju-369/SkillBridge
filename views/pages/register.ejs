@@ -3,7 +3,25 @@
     <div class="col-md-8 col-lg-6">
       <div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm">
         <div class="text-center mb-4">
-          <img src="/images/logo.svg" alt="SkillBridge Logo" width="48" height="48" class="mb-2 rounded">
+          <div class="brand-logo-icon shadow-sm rounded-3 overflow-hidden d-inline-flex mb-3">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect width="48" height="48" rx="12" fill="url(#regSbGrad)" />
+              <path d="M10 34 C18 24, 30 24, 38 34" stroke="url(#regSbAccent)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+              <path d="M24 14 L36 20 L24 26 L12 20 Z" fill="#FFFFFF" />
+              <path d="M18 23.5 V29 C18 31.5, 30 31.5, 30 29 V23.5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" />
+              <circle cx="36" cy="20" r="2.5" fill="#F59E0B" />
+              <defs>
+                <linearGradient id="regSbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4F46E5" />
+                  <stop offset="100%" stop-color="#7C3AED" />
+                </linearGradient>
+                <linearGradient id="regSbAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06B6D4" />
+                  <stop offset="100%" stop-color="#3B82F6" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
           <h3 class="fw-bold mb-1">Create an Account</h3>
           <p class="text-muted small">Join SkillBridge as a Student Freelancer or Client</p>
         </div>
@@ -80,8 +98,8 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary-custom w-100 py-2 mb-3">
-            <i class="bi bi-person-plus me-1"></i>Create Account
+          <button type="submit" class="btn btn-primary-custom w-100 py-3 mb-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <i class="bi bi-person-check-fill fs-5"></i><span>Create SkillBridge Account</span>
           </button>
         </form>
 

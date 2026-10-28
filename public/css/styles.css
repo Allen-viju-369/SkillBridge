@@ -620,3 +620,45 @@ main {
   transform: translateY(-2px);
   box-shadow: 0 8px 18px rgba(79, 70, 229, 0.12);
 }
+
+/* ==========================================================================
+   Service Card Banner & Gradient Thumbnails
+   ========================================================================== */
+.service-card-banner {
+  height: 180px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+.service-gradient-thumb {
+  height: 180px;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #06b6d4 100%);
+  padding: 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.custom-card:hover .service-gradient-thumb {
+  transform: scale(1.05);
+}
+
+.thumb-icon-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover .thumb-icon-badge {
+  transform: scale(1.12) rotate(4deg);
+}
+

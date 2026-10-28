@@ -161,8 +161,22 @@
     <div class="row g-4">
       <% featuredServices.forEach(service => { %>
         <div class="col-lg-4 col-md-6">
-          <div class="custom-card position-relative h-100 d-flex flex-column">
-            <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="service-card-img w-100" loading="lazy" onerror="this.onerror=null;this.src='/images/default-service.svg';">
+          <div class="custom-card position-relative h-100 d-flex flex-column overflow-hidden">
+            <!-- Service Banner -->
+            <div class="service-card-banner position-relative">
+              <% if (service.thumbnailUrl && !service.thumbnailUrl.includes('default-service') && !service.thumbnailUrl.endsWith('.svg')) { %>
+                <img src="<%= service.thumbnailUrl %>" alt="<%= service.title %>" class="service-card-img w-100" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+              <% } %>
+              <div class="service-gradient-thumb w-100 d-flex flex-column align-items-center justify-content-center text-white" style="<%= (service.thumbnailUrl && !service.thumbnailUrl.includes('default-service') && !service.thumbnailUrl.endsWith('.svg')) ? 'display:none;' : '' %>">
+                <div class="thumb-icon-badge mb-2">
+                  <i class="bi <%= service.category ? service.category.icon : 'bi-laptop' %> fs-2 text-white"></i>
+                </div>
+                <span class="badge bg-white text-dark shadow-sm px-3 py-1 rounded-pill small fw-semibold">
+                  <%= service.category ? service.category.name : 'Student Freelance' %>
+                </span>
+              </div>
+            </div>
+
             <div class="p-3 d-flex flex-column flex-grow-1">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="badge bg-light text-secondary border small">
@@ -187,7 +201,7 @@
               <div class="pt-3 border-top d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
                 <% if (service.freelancer) { %>
                   <a href="/freelancers/<%= service.freelancer._id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
-                    <img src="<%= service.freelancer.profileImage || '/images/default-avatar.svg' %>" alt="<%= service.freelancer.name %>" class="rounded-circle" width="30" height="30" style="object-fit: cover;">
+                    <span class="user-avatar-badge" style="width: 28px; height: 28px; font-size: 0.75rem;"><%= (service.freelancer.name || 'S').charAt(0).toUpperCase() %></span>
                     <span class="small fw-semibold"><%= service.freelancer.name %></span>
                     <% if (service.freelancer.isVerified) { %>
                       <i class="bi bi-patch-check-fill text-primary" title="Verified Skill Passport"></i>
@@ -235,7 +249,7 @@
       <% topFreelancers.forEach(fl => { %>
         <div class="col-md-6 col-lg-3">
           <div class="custom-card p-3 h-100 text-center d-flex flex-column align-items-center">
-            <img src="<%= fl.profileImage || '/images/default-avatar.svg' %>" alt="<%= fl.name %>" class="rounded-circle mb-2" width="64" height="64" style="object-fit: cover;">
+            <span class="user-avatar-badge mb-3 shadow" style="width: 58px; height: 58px; font-size: 1.4rem;"><%= (fl.name || 'S').charAt(0).toUpperCase() %></span>
             <h6 class="fw-bold mb-0">
               <%= fl.name %>
               <% if (fl.isVerified) { %><i class="bi bi-patch-check-fill text-primary" title="Verified"></i><% } %>

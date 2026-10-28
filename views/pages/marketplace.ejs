@@ -100,8 +100,19 @@
           <% services.forEach(service => { %>
             <div class="col-md-6 col-xl-4">
               <div class="custom-card position-relative h-100 d-flex flex-column">
-                <div class="position-relative overflow-hidden">
-                  <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="service-card-img w-100" loading="lazy" onerror="this.onerror=null;this.src='/images/default-service.svg';">
+                <!-- Service Banner -->
+                <div class="service-card-banner position-relative overflow-hidden">
+                  <% if (service.thumbnailUrl && !service.thumbnailUrl.includes('default-service') && !service.thumbnailUrl.endsWith('.svg')) { %>
+                    <img src="<%= service.thumbnailUrl %>" alt="<%= service.title %>" class="service-card-img w-100" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                  <% } %>
+                  <div class="service-gradient-thumb w-100 d-flex flex-column align-items-center justify-content-center text-white" style="<%= (service.thumbnailUrl && !service.thumbnailUrl.includes('default-service') && !service.thumbnailUrl.endsWith('.svg')) ? 'display:none;' : '' %>">
+                    <div class="thumb-icon-badge mb-2">
+                      <i class="bi <%= service.category ? service.category.icon : 'bi-laptop' %> fs-2 text-white"></i>
+                    </div>
+                    <span class="badge bg-white text-dark shadow-sm px-3 py-1 rounded-pill small fw-semibold">
+                      <%= service.category ? service.category.name : 'Student Freelance' %>
+                    </span>
+                  </div>
                   <span class="badge bg-dark bg-opacity-75 text-white position-absolute top-0 end-0 m-2 small">
                     <i class="bi bi-clock me-1"></i><%= service.deliveryDays %>d
                   </span>
@@ -134,7 +145,7 @@
                   <!-- Footer: Freelancer & Price -->
                   <div class="pt-3 border-top d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
                     <a href="/freelancers/<%= service.freelancer._id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
-                      <img src="<%= service.freelancer.profileImage || '/images/default-avatar.svg' %>" alt="<%= service.freelancer.name %>" class="rounded-circle" width="28" height="28" style="object-fit: cover;">
+                      <span class="user-avatar-badge" style="width: 28px; height: 28px; font-size: 0.75rem;"><%= (service.freelancer.name || 'S').charAt(0).toUpperCase() %></span>
                       <div class="d-flex flex-column">
                         <span class="small fw-semibold lh-1"><%= service.freelancer.name %></span>
                         <% if (service.freelancer.isVerified) { %>
