@@ -1,0 +1,96 @@
+<div class="container py-4 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+          <div>
+            <h2 class="fw-bold mb-1">Edit Service Listing</h2>
+            <p class="text-muted small mb-0">Update pricing, delivery timeline, or description for your offering.</p>
+          </div>
+          <a href="/marketplace/<%= service._id %>" class="btn btn-outline-custom btn-sm">Preview Public Page</a>
+        </div>
+
+        <form action="/services/<%= service._id %>/edit" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <!-- Service Title -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-secondary">Service Title <span class="text-danger">*</span></label>
+            <input type="text" name="title" class="form-control" value="<%= service.title %>" minlength="5" maxlength="120" required>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <!-- Category -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-secondary">Discipline Category <span class="text-danger">*</span></label>
+              <select name="category" class="form-select" required>
+                <% categories.forEach(cat => { %>
+                  <option value="<%= cat._id %>" <%= service.category && service.category.toString() === cat._id.toString() ? 'selected' : '' %>>
+                    <%= cat.name %>
+                  </option>
+                <% }) %>
+              </select>
+            </div>
+
+            <!-- Price -->
+            <div class="col-md-3">
+              <label class="form-label fw-semibold small text-secondary">Price (INR ₹) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">₹</span>
+                <input type="number" name="price" class="form-control" value="<%= service.price %>" min="5" max="100000" required>
+              </div>
+            </div>
+
+            <!-- Delivery Days -->
+            <div class="col-md-3">
+              <label class="form-label fw-semibold small text-secondary">Delivery (Days) <span class="text-danger">*</span></label>
+              <input type="number" name="deliveryDays" class="form-control" value="<%= service.deliveryDays %>" min="1" max="60" required>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-secondary">Detailed Description <span class="text-danger">*</span></label>
+            <textarea name="description" class="form-control" rows="6" minlength="20" maxlength="3000" required><%= service.description %></textarea>
+          </div>
+
+          <!-- Skills -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-secondary">Required Skills / Tech Tags (Comma separated)</label>
+            <input type="text" name="skills" class="form-control" value="<%= (service.skills || []).join(', ') %>">
+          </div>
+
+          <!-- Thumbnail URL -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-secondary">Cover Image / Thumbnail URL</label>
+            <input type="url" name="thumbnailUrl" class="form-control" value="<%= service.thumbnailUrl %>">
+          </div>
+
+          <!-- Active Toggle -->
+          <div class="form-check form-switch mb-4">
+            <input class="form-check-input" type="checkbox" name="isActive" id="isActiveCheck" <%= service.isActive ? 'checked' : '' %>>
+            <label class="form-check-label fw-semibold small text-secondary" for="isActiveCheck">
+              Active Listing (Visible to public marketplace clients)
+            </label>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <button type="button" class="btn btn-outline-danger btn-sm" onclick="if(confirm('Permanently delete this service?')) document.getElementById('deleteServiceForm').submit();">
+              <i class="bi bi-trash me-1"></i>Delete Listing
+            </button>
+            <div class="d-flex gap-2">
+              <a href="/dashboard/freelancer" class="btn btn-outline-custom">Cancel</a>
+              <button type="submit" class="btn btn-primary-custom">
+                <i class="bi bi-save me-1"></i>Save Changes
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <form id="deleteServiceForm" action="/services/<%= service._id %>/delete" method="POST" class="d-none">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

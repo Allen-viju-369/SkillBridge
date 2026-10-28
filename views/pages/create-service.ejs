@@ -1,0 +1,84 @@
+<div class="container py-4 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm">
+        <div class="mb-4 pb-3 border-bottom">
+          <h2 class="fw-bold mb-1">Post a New Service Listing</h2>
+          <p class="text-muted small mb-0">Publish a freelance package to showcase your expertise to prospective clients.</p>
+        </div>
+
+        <form action="/services" method="POST" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <!-- Service Title -->
+          <div class="mb-3">
+            <label for="srvTitle" class="form-label fw-semibold small text-secondary">Service Title <span class="text-danger">*</span></label>
+            <input type="text" name="title" id="srvTitle" class="form-control" placeholder="e.g. Full-Stack Web Application in Node.js & React" minlength="5" maxlength="120" required>
+            <div class="form-text small">Write a clear, descriptive title (5 to 120 characters).</div>
+            <div class="invalid-feedback">Please enter a descriptive title.</div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <!-- Category -->
+            <div class="col-md-6">
+              <label for="srvCategory" class="form-label fw-semibold small text-secondary">Discipline Category <span class="text-danger">*</span></label>
+              <select name="category" id="srvCategory" class="form-select" required>
+                <option value="">Choose Category...</option>
+                <% categories.forEach(cat => { %>
+                  <option value="<%= cat._id %>"><%= cat.name %></option>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">Please select a category.</div>
+            </div>
+
+            <!-- Price -->
+            <div class="col-md-3">
+              <label for="srvPrice" class="form-label fw-semibold small text-secondary">Price (INR ₹) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">₹</span>
+                <input type="number" name="price" id="srvPrice" class="form-control" placeholder="2500" min="5" max="100000" required>
+              </div>
+              <div class="invalid-feedback">Valid price between ₹5 and ₹100,000 required.</div>
+            </div>
+
+            <!-- Delivery Days -->
+            <div class="col-md-3">
+              <label for="srvDays" class="form-label fw-semibold small text-secondary">Delivery (Days) <span class="text-danger">*</span></label>
+              <input type="number" name="deliveryDays" id="srvDays" class="form-control" placeholder="4" min="1" max="60" required>
+              <div class="invalid-feedback">Delivery duration must be between 1 and 60 days.</div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="srvDescription" class="form-label fw-semibold small text-secondary">Detailed Description <span class="text-danger">*</span></label>
+            <textarea name="description" id="srvDescription" class="form-control" rows="6" placeholder="Explain what is included in this service, deliverables, stack used, and expectations..." minlength="20" maxlength="3000" required></textarea>
+            <div class="form-text small">At least 20 characters describing your service in detail.</div>
+            <div class="invalid-feedback">Please provide at least 20 characters of description.</div>
+          </div>
+
+          <!-- Skills -->
+          <div class="mb-3">
+            <label for="srvSkills" class="form-label fw-semibold small text-secondary">Required Skills / Tech Tags (Comma separated)</label>
+            <input type="text" name="skills" id="srvSkills" class="form-control" placeholder="e.g. Node.js, Express, MongoDB, REST API, HTML/CSS">
+            <div class="form-text small">These tags directly feed the Skill Matcher for client compatibility.</div>
+          </div>
+
+          <!-- Thumbnail URL -->
+          <div class="mb-4">
+            <label for="srvThumb" class="form-label fw-semibold small text-secondary">Cover Image / Thumbnail URL (Optional)</label>
+            <input type="url" name="thumbnailUrl" id="srvThumb" class="form-control" placeholder="https://images.unsplash.com/photo-..." value="">
+            <div class="form-text small">Leave blank to use a sleek gradient placeholder.</div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+            <a href="/dashboard/freelancer" class="btn btn-outline-custom">Cancel</a>
+            <button type="submit" class="btn btn-primary-custom">
+              <i class="bi bi-cloud-arrow-up me-1"></i>Publish Service Listing
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

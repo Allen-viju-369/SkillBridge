@@ -1,0 +1,147 @@
+<div class="container mb-5">
+  <!-- Admin Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill">
+          <i class="bi bi-shield-lock-fill me-1"></i>Protected Admin Zone
+        </span>
+      </div>
+      <h1 class="fw-bold mb-0">Platform Administration Hub</h1>
+      <p class="text-muted small mb-0">Oversee student verification, moderate service listings, and monitor marketplace transactions.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="/admin/users" class="btn btn-outline-custom btn-sm">
+        <i class="bi bi-people me-1"></i>Manage Users
+      </a>
+      <a href="/admin/categories" class="btn btn-outline-custom btn-sm">
+        <i class="bi bi-tags me-1"></i>Categories
+      </a>
+      <a href="/admin/services" class="btn btn-outline-custom btn-sm">
+        <i class="bi bi-card-checklist me-1"></i>Service Moderation
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Overview -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm">
+        <span class="text-muted small fw-semibold">Total Students</span>
+        <div class="fs-3 fw-bold text-primary mt-1"><%= stats.totalStudents %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">Registered student freelancers</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm">
+        <span class="text-muted small fw-semibold">Total Clients</span>
+        <div class="fs-3 fw-bold text-info mt-1"><%= stats.totalClients %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">Faculty, labs, startups, clubs</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm">
+        <span class="text-muted small fw-semibold">Active Services</span>
+        <div class="fs-3 fw-bold text-success mt-1"><%= stats.activeServices %> / <%= stats.totalServices %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">Published freelance packages</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm">
+        <span class="text-muted small fw-semibold">Platform Volume</span>
+        <div class="fs-3 fw-bold text-success mt-1"><%= formatCurrency(stats.totalVolume) %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">From <%= stats.completedOrders %> completed orders</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Recent Users Table -->
+    <div class="col-lg-6">
+      <div class="card border-0 rounded-4 shadow-sm border h-100">
+        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold mb-0">Recent User Registrations</h6>
+          <a href="/admin/users" class="small text-primary text-decoration-none">View All Users</a>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light small">
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentUsers.forEach(u => { %>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <img src="<%= u.profileImage || '/images/default-avatar.svg' %>" alt="" class="rounded-circle" width="28" height="28">
+                        <div>
+                          <div class="small fw-semibold"><%= u.name %></div>
+                          <div class="text-muted" style="font-size: 0.7rem;"><%= u.email %></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge bg-<%= u.role === 'admin' ? 'danger' : u.role === 'student' ? 'primary' : 'info' %>-subtle text-<%= u.role === 'admin' ? 'danger' : u.role === 'student' ? 'primary' : 'info' %> small">
+                        <%= u.role.toUpperCase() %>
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge bg-<%= u.accountStatus === 'active' ? 'success' : 'danger' %> small">
+                        <%= u.accountStatus %>
+                      </span>
+                    </td>
+                    <td class="small text-muted"><%= formatDate(u.createdAt) %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="col-lg-6">
+      <div class="card border-0 rounded-4 shadow-sm border h-100">
+        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold mb-0">Recent Platform Orders</h6>
+          <a href="/admin/orders" class="small text-primary text-decoration-none">View All Orders</a>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light small">
+                <tr>
+                  <th>Client</th>
+                  <th>Freelancer</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentOrders.forEach(o => { %>
+                  <tr>
+                    <td class="small fw-semibold"><%= o.client ? o.client.name : 'Client' %></td>
+                    <td class="small"><%= o.freelancer ? o.freelancer.name : 'Freelancer' %></td>
+                    <td class="small fw-bold text-primary"><%= formatCurrency(o.price) %></td>
+                    <td>
+                      <span class="badge bg-<%= o.status === 'completed' ? 'success' : o.status === 'pending' ? 'warning' : 'primary' %> small text-uppercase">
+                        <%= o.status.replace('_', ' ') %>
+                      </span>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

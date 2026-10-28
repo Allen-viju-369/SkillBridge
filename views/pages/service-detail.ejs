@@ -1,0 +1,264 @@
+<div class="container mb-5">
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb small">
+      <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+      <li class="breadcrumb-item"><a href="/marketplace" class="text-decoration-none">Marketplace</a></li>
+      <li class="breadcrumb-item"><a href="/marketplace?category=<%= service.category.slug %>" class="text-decoration-none"><%= service.category.name %></a></li>
+      <li class="breadcrumb-item active text-truncate" style="max-width: 250px;" aria-current="page"><%= service.title %></li>
+    </ol>
+  </nav>
+
+  <div class="row g-4">
+    <!-- Left Column: Service Details & Description -->
+    <div class="col-lg-8">
+      <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill">
+            <i class="bi <%= service.category.icon %> me-1"></i><%= service.category.name %>
+          </span>
+          <span class="text-muted small">Listed <%= formatTimeAgo(service.createdAt) %></span>
+        </div>
+
+        <h1 class="fw-bold fs-2 mb-3"><%= service.title %></h1>
+
+        <!-- Service Thumbnail Image -->
+        <div class="rounded-3 overflow-hidden mb-4 border">
+          <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="w-100" style="max-height: 400px; object-fit: cover;">
+        </div>
+
+        <!-- Description -->
+        <h5 class="fw-bold mb-3">Service Overview</h5>
+        <div class="text-secondary mb-4" style="line-height: 1.8; white-space: pre-line;">
+          <%= service.description %>
+        </div>
+
+        <!-- Skills Covered -->
+        <h5 class="fw-bold mb-3">Skills & Technologies</h5>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <% (service.skills || []).forEach(skill => { %>
+            <span class="badge-skill px-3 py-2 fs-6"><i class="bi bi-tag-fill text-muted me-1 small"></i><%= skill %></span>
+          <% }) %>
+        </div>
+
+        <!-- Distinctive Feature: Rule-Based Skill Match Simulator -->
+        <div class="p-3 bg-light rounded-3 border">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-cpu-fill text-primary fs-5"></i>
+              <h6 class="fw-bold mb-0">Rule-Based Skill Match Calculator</h6>
+            </div>
+            <span class="badge bg-secondary-subtle text-secondary small">Transparent Algorithm</span>
+          </div>
+          <p class="small text-muted mb-3">
+            Compare your required skills with this freelancer's declared expertise to preview compatibility before commissioning.
+          </p>
+
+          <form action="/marketplace/<%= service._id %>" method="GET" class="d-flex gap-2 mb-3">
+            <input type="text" name="matchSkills" class="form-control form-control-sm" placeholder="Enter comma-separated skills (e.g. React, Node.js, CSS)" value="<%= skillMatchReport ? skillMatchReport.matchedSkills.concat(skillMatchReport.missingSkills).join(', ') : '' %>">
+            <button type="submit" class="btn btn-outline-custom btn-sm text-nowrap">Calculate Match</button>
+          </form>
+
+          <% if (skillMatchReport) { %>
+            <div class="bg-white p-3 rounded-2 border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="small fw-bold">Compatibility Score:</span>
+                <span class="fw-bold text-<%= skillMatchReport.matchPercentage >= 70 ? 'success' : skillMatchReport.matchPercentage >= 40 ? 'warning' : 'danger' %>">
+                  <%= skillMatchReport.matchPercentage %>% Match
+                </span>
+              </div>
+              <div class="progress mb-2" style="height: 8px;">
+                <div class="progress-bar bg-<%= skillMatchReport.matchPercentage >= 70 ? 'success' : skillMatchReport.matchPercentage >= 40 ? 'warning' : 'danger' %>" role="progressbar" style="width: <%= skillMatchReport.matchPercentage %>%;"></div>
+              </div>
+              <div class="small">
+                <strong>Matched:</strong> 
+                <% if (skillMatchReport.matchedSkills.length > 0) { %>
+                  <% skillMatchReport.matchedSkills.forEach(m => { %>
+                    <span class="badge-skill-match"><i class="bi bi-check2"></i> <%= m %></span>
+                  <% }) %>
+                <% } else { %>
+                  <span class="text-muted">None directly matched</span>
+                <% } %>
+              </div>
+              <% if (skillMatchReport.missingSkills.length > 0) { %>
+                <div class="small mt-1">
+                  <strong>Missing / Unspecified:</strong> 
+                  <% skillMatchReport.missingSkills.forEach(m => { %>
+                    <span class="badge-skill text-danger"><i class="bi bi-x"></i> <%= m %></span>
+                  <% }) %>
+                </div>
+              <% } %>
+              <div class="text-muted mt-2" style="font-size: 0.72rem;">
+                <i class="bi bi-info-circle me-1"></i><%= skillMatchReport.methodology %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Related Services in Category -->
+      <% if (relatedServices && relatedServices.length > 0) { %>
+        <div class="mt-4">
+          <h5 class="fw-bold mb-3">More from <%= service.category.name %></h5>
+          <div class="row g-3">
+            <% relatedServices.forEach(rel => { %>
+              <div class="col-md-4">
+                <div class="custom-card p-3 h-100 d-flex flex-column">
+                  <h6 class="fw-bold mb-2">
+                    <a href="/marketplace/<%= rel._id %>" class="text-decoration-none text-dark stretched-link">
+                      <%= rel.title %>
+                    </a>
+                  </h6>
+                  <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                    <span class="small text-muted"><%= rel.freelancer.name %></span>
+                    <span class="fw-bold text-primary small"><%= formatCurrency(rel.price) %></span>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Right Column: Booking Card & Freelancer Mini Profile -->
+    <div class="col-lg-4">
+      <!-- Pricing & Hire CTA Card -->
+      <div class="bg-white p-4 rounded-4 border shadow-sm mb-4 sticky-top" style="top: 85px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted small">Standard Package</span>
+          <span class="fs-3 fw-bold text-primary"><%= formatCurrency(service.price) %></span>
+        </div>
+
+        <div class="p-3 bg-light rounded-3 mb-3 border">
+          <div class="d-flex align-items-center gap-2 mb-2 text-secondary small">
+            <i class="bi bi-clock-history fs-5 text-primary"></i>
+            <span><strong><%= service.deliveryDays %> Days</strong> Estimated Delivery</span>
+          </div>
+          <div class="d-flex align-items-center gap-2 text-secondary small">
+            <i class="bi bi-arrow-repeat fs-5 text-success"></i>
+            <span>Revision Support via Order Messages</span>
+          </div>
+        </div>
+
+        <% if (!isLoggedIn) { %>
+          <a href="/auth/login?returnTo=/marketplace/<%= service._id %>" class="btn btn-primary-custom w-100 py-2 mb-2">
+            Log In to Request Service
+          </a>
+          <small class="text-muted d-block text-center" style="font-size: 0.75rem;">
+            New client? <a href="/auth/register?role=client" class="text-primary text-decoration-none">Sign up free</a>
+          </small>
+        <% } else if (isStudent && currentUser._id === service.freelancer._id.toString()) { %>
+          <a href="/services/<%= service._id %>/edit" class="btn btn-outline-custom w-100 py-2 mb-2">
+            <i class="bi bi-pencil-square me-1"></i>Edit This Service Listing
+          </a>
+        <% } else if (isStudent) { %>
+          <div class="alert alert-info small py-2 mb-0">
+            <i class="bi bi-info-circle me-1"></i>You are logged in as a Student Freelancer. Switch to a Client account to commission work.
+          </div>
+        <% } else { %>
+          <!-- Client Commission Request Form -->
+          <button type="button" class="btn btn-primary-custom w-100 py-2 mb-2 fs-6" data-bs-toggle="modal" data-bs-target="#requestServiceModal">
+            <i class="bi bi-send-check me-1"></i>Request This Service
+          </button>
+          <small class="text-muted d-block text-center" style="font-size: 0.75rem;">
+            <i class="bi bi-shield-check text-success me-1"></i>Safe simulated escrow & milestone tracking
+          </small>
+        <% } %>
+
+        <hr class="my-4">
+
+        <!-- Freelancer Mini Skill Passport Summary -->
+        <h6 class="fw-bold mb-3">About The Student Freelancer</h6>
+        <div class="d-flex gap-3 align-items-center mb-3">
+          <img src="<%= service.freelancer.profileImage || '/images/default-avatar.svg' %>" alt="<%= service.freelancer.name %>" class="rounded-circle" width="56" height="56" style="object-fit: cover;">
+          <div>
+            <h6 class="fw-bold mb-0">
+              <a href="/freelancers/<%= service.freelancer._id %>" class="text-decoration-none text-dark">
+                <%= service.freelancer.name %>
+              </a>
+              <% if (service.freelancer.isVerified) { %>
+                <i class="bi bi-patch-check-fill text-primary" title="Verified Skill Passport"></i>
+              <% } %>
+            </h6>
+            <small class="text-muted d-block"><%= service.freelancer.college || 'University Student' %></small>
+            <div class="small text-warning mt-1">
+              <%- renderStars(passportData ? passportData.metrics.averageRating : 5) %>
+              <span class="text-dark fw-bold ms-1"><%= passportData ? passportData.metrics.averageRating : '5.0' %></span>
+              <span class="text-muted">(<%= passportData ? passportData.metrics.reviewCount : 0 %>)</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-muted small mb-3">
+          <%= service.freelancer.bio || 'Dedicated student freelancer offering high-quality work.' %>
+        </p>
+
+        <a href="/freelancers/<%= service.freelancer._id %>" class="btn btn-outline-custom btn-sm w-100">
+          <i class="bi bi-award me-1"></i>View Full Skill Passport
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Commission / Request Service -->
+<% if (isLoggedIn && isClient) { %>
+  <div class="modal fade" id="requestServiceModal" tabindex="-1" aria-labelledby="requestServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold" id="requestServiceModalLabel">Commission Project Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/orders" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="serviceId" value="<%= service._id %>">
+
+          <div class="modal-body p-4">
+            <div class="p-3 bg-light rounded-3 mb-3 border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-semibold text-secondary small">Service:</span>
+                <span class="fw-bold small text-truncate" style="max-width: 250px;"><%= service.title %></span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold text-secondary small">Agreed Price:</span>
+                <span class="fw-bold text-primary"><%= formatCurrency(service.price) %></span>
+              </div>
+            </div>
+
+            <!-- Project Requirements -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold small text-secondary">
+                Detailed Project Requirements <span class="text-danger">*</span>
+              </label>
+              <textarea name="requirements" class="form-control" rows="4" placeholder="Describe your expectations, features needed, tech preferences, or file links (minimum 10 characters)..." minlength="10" maxlength="2000" required></textarea>
+              <div class="form-text small">Be specific to help the student understand your goals.</div>
+            </div>
+
+            <!-- Target Deadline -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold small text-secondary">
+                Target Completion Deadline <span class="text-danger">*</span>
+              </label>
+              <% 
+                const minDate = new Date();
+                minDate.setDate(minDate.getDate() + 1);
+                const minDateStr = minDate.toISOString().split('T')[0];
+              %>
+              <input type="date" name="deadline" class="form-control" min="<%= minDateStr %>" required>
+              <div class="form-text small">Must be a future date allowing reasonable delivery time.</div>
+            </div>
+          </div>
+
+          <div class="modal-footer border-top">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary-custom">
+              <i class="bi bi-send me-1"></i>Submit Service Request
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<% } %>

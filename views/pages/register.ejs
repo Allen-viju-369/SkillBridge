@@ -1,0 +1,97 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm">
+        <div class="text-center mb-4">
+          <img src="/images/logo.svg" alt="SkillBridge Logo" width="48" height="48" class="mb-2 rounded">
+          <h3 class="fw-bold mb-1">Create an Account</h3>
+          <p class="text-muted small">Join SkillBridge as a Student Freelancer or Client</p>
+        </div>
+
+        <form action="/auth/register" method="POST" id="registerForm" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <!-- Role Selector -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold small text-secondary d-block">Select Your Account Role</label>
+            <div class="row g-2">
+              <div class="col-6">
+                <input type="radio" class="btn-check" name="role" id="roleStudent" value="student" <%= selectedRole === 'student' ? 'checked' : '' %>>
+                <label class="btn btn-outline-primary w-100 p-3 text-start d-flex flex-column gap-1 rounded-3 h-100" for="roleStudent">
+                  <span class="fw-bold"><i class="bi bi-mortarboard-fill me-1"></i>Student</span>
+                  <small class="text-muted" style="font-size: 0.75rem;">I want to offer freelance services</small>
+                </label>
+              </div>
+              <div class="col-6">
+                <input type="radio" class="btn-check" name="role" id="roleClient" value="client" <%= selectedRole === 'client' ? 'checked' : '' %>>
+                <label class="btn btn-outline-primary w-100 p-3 text-start d-flex flex-column gap-1 rounded-3 h-100" for="roleClient">
+                  <span class="fw-bold"><i class="bi bi-briefcase-fill me-1"></i>Client</span>
+                  <small class="text-muted" style="font-size: 0.75rem;">I want to hire student talent</small>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Basic Info -->
+          <div class="mb-3">
+            <label for="registerName" class="form-label fw-semibold small text-secondary">Full Name</label>
+            <input type="text" name="name" id="registerName" class="form-control" placeholder="Aarav Sharma" minlength="2" maxlength="100" required>
+            <div class="invalid-feedback">Please enter your full name (at least 2 characters).</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="registerEmail" class="form-label fw-semibold small text-secondary">Email Address</label>
+            <input type="email" name="email" id="registerEmail" class="form-control" placeholder="aarav@university.edu" required>
+            <div class="invalid-feedback">Please provide a valid email address.</div>
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-sm-6">
+              <label for="registerPassword" class="form-label fw-semibold small text-secondary">Password</label>
+              <input type="password" name="password" id="registerPassword" class="form-control" placeholder="••••••••" minlength="6" required>
+              <div class="invalid-feedback">Password must be at least 6 characters.</div>
+            </div>
+            <div class="col-sm-6">
+              <label for="registerConfirmPassword" class="form-label fw-semibold small text-secondary">Confirm Password</label>
+              <input type="password" name="confirmPassword" id="registerConfirmPassword" class="form-control" placeholder="••••••••" minlength="6" required>
+              <div class="invalid-feedback">Passwords must match.</div>
+            </div>
+          </div>
+
+          <!-- Student-specific fields -->
+          <div id="studentFields" class="p-3 bg-light rounded-3 border mb-4">
+            <h6 class="fw-bold small text-secondary mb-3"><i class="bi bi-mortarboard me-1"></i>Academic & Skills Details</h6>
+            
+            <div class="row g-2 mb-2">
+              <div class="col-sm-6">
+                <label class="form-label small fw-semibold text-muted">College / University</label>
+                <input type="text" name="college" class="form-control form-control-sm" placeholder="e.g. National Institute of Tech">
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label small fw-semibold text-muted">Degree & Branch</label>
+                <input type="text" name="degree" class="form-control form-control-sm" placeholder="e.g. B.Tech Computer Science">
+              </div>
+            </div>
+
+            <div>
+              <label class="form-label small fw-semibold text-muted">Core Skills (Comma separated)</label>
+              <input type="text" name="skills" class="form-control form-control-sm" placeholder="e.g. Node.js, React, Figma, Python">
+              <div class="form-text small" style="font-size: 0.72rem;">These skills will power your Student Skill Passport and match algorithm.</div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom w-100 py-2 mb-3">
+            <i class="bi bi-person-plus me-1"></i>Create My Account
+          </button>
+        </form>
+
+        <div class="text-center pt-3 border-top">
+          <p class="small text-muted mb-0">
+            Already have an account? 
+            <a href="/auth/login" class="fw-semibold text-primary text-decoration-none">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

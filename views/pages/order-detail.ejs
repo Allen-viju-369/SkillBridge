@@ -1,0 +1,295 @@
+<div class="container mb-5">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb small">
+      <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+      <li class="breadcrumb-item">
+        <% if (isOrderFreelancer) { %>
+          <a href="/dashboard/freelancer" class="text-decoration-none">Freelancer Studio</a>
+        <% } else if (isOrderClient) { %>
+          <a href="/dashboard/client" class="text-decoration-none">Client Hub</a>
+        <% } else { %>
+          <a href="/admin/orders" class="text-decoration-none">Admin Orders</a>
+        <% } %>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Order #<%= order._id.toString().substring(18) %></li>
+    </ol>
+  </nav>
+
+  <!-- Header Card -->
+  <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <h2 class="fw-bold mb-0">Project Commission</h2>
+          <span class="text-muted font-monospace small">#<%= order._id %></span>
+        </div>
+        <p class="text-muted small mb-0">Commissioned on <%= formatDate(order.createdAt) %> &bull; Associated Service: <strong><%= order.service ? order.service.title : 'Service' %></strong></p>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="text-md-end">
+          <small class="text-muted d-block" style="font-size: 0.75rem;">Total Agreed Price</small>
+          <span class="fs-4 fw-bold text-primary"><%= formatCurrency(order.price) %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual 5-Stage Lifecycle Timeline -->
+    <% 
+      const states = ['pending', 'accepted', 'in_progress', 'delivered', 'completed'];
+      const currentIndex = states.indexOf(order.status);
+      const isTerminalNegative = order.status === 'rejected' || order.status === 'cancelled';
+    %>
+
+    <% if (isTerminalNegative) { %>
+      <div class="alert alert-danger mt-4 mb-2 d-flex align-items-center gap-2">
+        <i class="bi bi-x-circle-fill fs-4"></i>
+        <div>
+          <strong>Order <%= order.status.toUpperCase() %>:</strong> This project commission was terminated. No further milestone transitions are permitted.
+        </div>
+      </div>
+    <% } else { %>
+      <div class="order-timeline mt-4 pt-2">
+        <div class="timeline-step <%= currentIndex >= 0 ? (currentIndex === 0 ? 'active' : 'completed') : '' %>">
+          <div class="step-circle"><i class="bi bi-send-check"></i></div>
+          <div class="step-label">1. Pending</div>
+        </div>
+        <div class="timeline-step <%= currentIndex >= 1 ? (currentIndex === 1 ? 'active' : 'completed') : '' %>">
+          <div class="step-circle"><i class="bi bi-check2"></i></div>
+          <div class="step-label">2. Accepted</div>
+        </div>
+        <div class="timeline-step <%= currentIndex >= 2 ? (currentIndex === 2 ? 'active' : 'completed') : '' %>">
+          <div class="step-circle"><i class="bi bi-gear-wide-connected"></i></div>
+          <div class="step-label">3. In Progress</div>
+        </div>
+        <div class="timeline-step <%= currentIndex >= 3 ? (currentIndex === 3 ? 'active' : 'completed') : '' %>">
+          <div class="step-circle"><i class="bi bi-box-seam"></i></div>
+          <div class="step-label">4. Delivered</div>
+        </div>
+        <div class="timeline-step <%= currentIndex >= 4 ? 'completed' : '' %>">
+          <div class="step-circle"><i class="bi bi-award"></i></div>
+          <div class="step-label">5. Completed</div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Requirements & Deliverables -->
+    <div class="col-lg-8">
+      <!-- Project Requirements Card -->
+      <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-file-earmark-text text-primary me-2"></i>Project Requirements</h5>
+        <div class="p-3 bg-light rounded-3 border text-secondary" style="white-space: pre-line; line-height: 1.7;">
+          <%= order.requirements %>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-3 small text-muted">
+          <span>Target Deadline: <strong class="text-dark"><%= formatDate(order.deadline) %></strong></span>
+          <% if (order.service) { %>
+            <a href="/marketplace/<%= order.service._id %>" class="text-primary text-decoration-none">
+              View Original Service Package <i class="bi bi-arrow-right"></i>
+            </a>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Deliverables Section (Active if Delivered or Completed) -->
+      <% if (['delivered', 'completed'].includes(order.status) || order.deliveryNotes) { %>
+        <div class="card border-info rounded-4 shadow-sm mb-4 overflow-hidden">
+          <div class="card-header bg-info-subtle text-info-emphasis fw-bold py-3 d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-box-seam me-2"></i>Project Submission Deliverables</span>
+            <span class="badge bg-info text-white">Delivered <%= formatTimeAgo(order.deliveredAt) %></span>
+          </div>
+          <div class="card-body p-4">
+            <h6 class="fw-bold small text-secondary mb-2">Student Delivery Notes:</h6>
+            <div class="p-3 bg-light rounded-3 border mb-3 text-secondary" style="white-space: pre-line;">
+              <%= order.deliveryNotes %>
+            </div>
+
+            <% if (order.deliveryUrl) { %>
+              <h6 class="fw-bold small text-secondary mb-2">Artifact / Repository URL:</h6>
+              <a href="<%= order.deliveryUrl %>" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-box-arrow-up-right"></i> <%= order.deliveryUrl %>
+              </a>
+            <% } %>
+
+            <!-- Client Action to Approve Delivery -->
+            <% if (isOrderClient && order.status === 'delivered') { %>
+              <div class="alert alert-success mt-4 mb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                  <h6 class="fw-bold mb-1">Satisfied with the deliverables?</h6>
+                  <small class="text-muted">Approve delivery to release funds and unlock your Skill Passport review.</small>
+                </div>
+                <div class="d-flex gap-2">
+                  <!-- Request revision -->
+                  <form action="/orders/<%= order._id %>/status" method="POST" class="d-inline">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="targetStatus" value="in_progress">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Request adjustments? Freelancer will be asked to revise.')">
+                      Request Revision
+                    </button>
+                  </form>
+                  <!-- Approve Completion -->
+                  <form action="/orders/<%= order._id %>/status" method="POST" class="d-inline">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="targetStatus" value="completed">
+                    <button type="submit" class="btn btn-success btn-sm fw-bold">
+                      <i class="bi bi-check2-circle me-1"></i>Approve & Complete Project
+                    </button>
+                  </form>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
+
+      <!-- Review Feedback Showcase if Completed -->
+      <% if (existingReview) { %>
+        <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0"><i class="bi bi-star-fill text-warning me-2"></i>Client Review & Rating</h5>
+            <span class="badge bg-success-subtle text-success border">Verified Feedback</span>
+          </div>
+          <div class="p-3 bg-light rounded-3 border">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-bold"><%= order.client.name %></span>
+              <div class="text-warning small"><%- renderStars(existingReview.rating) %> (<%= existingReview.rating %>/5)</div>
+            </div>
+            <p class="text-secondary small mb-1">"<%= existingReview.comment %>"</p>
+            <small class="text-muted"><%= formatDate(existingReview.createdAt) %></small>
+          </div>
+        </div>
+      <% } else if (order.status === 'completed' && isOrderClient) { %>
+        <div class="card border-warning rounded-4 shadow-sm mb-4 bg-warning-subtle">
+          <div class="card-body p-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <h5 class="fw-bold mb-1 text-warning-emphasis">Review This Freelancer</h5>
+              <p class="text-muted small mb-0">Your rating directly influences <%= order.freelancer.name %>'s Student Skill Passport reputation.</p>
+            </div>
+            <a href="/orders/<%= order._id %>/review" class="btn btn-warning text-dark fw-bold">
+              <i class="bi bi-star-fill me-1"></i>Write Review
+            </a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Right Column: Participants & Workflow Controls -->
+    <div class="col-lg-4">
+      <!-- Participants Card -->
+      <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+        <h6 class="fw-bold mb-3 border-bottom pb-2">Project Parties</h6>
+
+        <!-- Freelancer -->
+        <div class="mb-3">
+          <small class="text-muted fw-bold d-block mb-1">STUDENT FREELANCER</small>
+          <div class="d-flex align-items-center gap-2">
+            <img src="<%= order.freelancer.profileImage || '/images/default-avatar.svg' %>" alt="<%= order.freelancer.name %>" class="rounded-circle" width="40" height="40">
+            <div>
+              <h6 class="fw-bold mb-0">
+                <a href="/freelancers/<%= order.freelancer._id %>" class="text-decoration-none text-dark">
+                  <%= order.freelancer.name %>
+                </a>
+                <% if (order.freelancer.isVerified) { %>
+                  <i class="bi bi-patch-check-fill text-primary" title="Verified Skill Passport"></i>
+                <% } %>
+              </h6>
+              <small class="text-muted"><%= order.freelancer.email %></small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Client -->
+        <div>
+          <small class="text-muted fw-bold d-block mb-1">CLIENT COMMISSIONER</small>
+          <div class="d-flex align-items-center gap-2">
+            <img src="<%= order.client.profileImage || '/images/default-avatar.svg' %>" alt="<%= order.client.name %>" class="rounded-circle" width="40" height="40">
+            <div>
+              <h6 class="fw-bold mb-0"><%= order.client.name %></h6>
+              <small class="text-muted"><%= order.client.email %></small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Panel for Freelancer Transitions -->
+      <% if (isOrderFreelancer && !['completed', 'rejected', 'cancelled'].includes(order.status)) { %>
+        <div class="bg-white p-4 rounded-4 border shadow-sm">
+          <h6 class="fw-bold mb-3 border-bottom pb-2">Freelancer Actions</h6>
+
+          <% if (order.status === 'pending') { %>
+            <p class="small text-muted mb-3">Review the client requirements above and choose whether to accept or decline.</p>
+            <div class="d-grid gap-2">
+              <form action="/orders/<%= order._id %>/status" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="targetStatus" value="accepted">
+                <button type="submit" class="btn btn-success w-100">
+                  <i class="bi bi-check2 me-1"></i>Accept Project
+                </button>
+              </form>
+              <form action="/orders/<%= order._id %>/status" method="POST" onsubmit="return confirm('Decline this project request?')">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="targetStatus" value="rejected">
+                <button type="submit" class="btn btn-outline-danger w-100">
+                  <i class="bi bi-x me-1"></i>Decline Request
+                </button>
+              </form>
+            </div>
+          <% } else if (order.status === 'accepted') { %>
+            <p class="small text-muted mb-3">Ready to begin? Transition status to "In Progress".</p>
+            <form action="/orders/<%= order._id %>/status" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" name="targetStatus" value="in_progress">
+              <button type="submit" class="btn btn-primary-custom w-100">
+                <i class="bi bi-play-fill me-1"></i>Mark As In Progress
+              </button>
+            </form>
+          <% } else if (order.status === 'in_progress') { %>
+            <p class="small text-muted mb-3">When you have completed the work, submit deliverables below.</p>
+            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#deliverModal">
+              <i class="bi bi-send-check me-1"></i>Submit Deliverables
+            </button>
+          <% } else if (order.status === 'delivered') { %>
+            <div class="alert alert-info small mb-0">
+              <i class="bi bi-hourglass-split me-1"></i>Deliverables submitted. Awaiting client review and final completion.
+            </div>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Freelancer Delivery Submission -->
+<% if (isOrderFreelancer && order.status === 'in_progress') { %>
+  <div class="modal fade" id="deliverModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Submit Completed Work</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form action="/orders/<%= order._id %>/status" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="targetStatus" value="delivered">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Delivery Notes & Overview <span class="text-danger">*</span></label>
+              <textarea name="deliveryNotes" class="form-control" rows="4" placeholder="Summarize deliverables, how to run/view code, or access credentials..." minlength="5" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Artifact URL (GitHub, Figma, Drive link)</label>
+              <input type="url" name="deliveryUrl" class="form-control" placeholder="https://..." value="https://">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">Confirm & Submit Delivery</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<% } %>

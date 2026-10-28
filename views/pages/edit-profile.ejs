@@ -1,0 +1,88 @@
+<div class="container py-4 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+          <div>
+            <h3 class="fw-bold mb-1">Edit Profile & Skill Passport</h3>
+            <p class="text-muted small mb-0">Update your public biography, academic information, and portfolio items.</p>
+          </div>
+          <span class="badge bg-primary-subtle text-primary border px-3 py-2 rounded-pill">
+            Role: <%= user.role.toUpperCase() %>
+          </span>
+        </div>
+
+        <form action="/profile/edit" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <!-- General Details -->
+          <h5 class="fw-bold mb-3 text-secondary">Basic Information</h5>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-muted">Full Name</label>
+              <input type="text" name="name" class="form-control" value="<%= user.name %>" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-muted">Email Address (Immutable)</label>
+              <input type="email" class="form-control bg-light" value="<%= user.email %>" disabled>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold small text-muted">Professional Biography</label>
+              <textarea name="bio" class="form-control" rows="3" maxlength="1000" placeholder="Briefly describe your experience, areas of interest, and work philosophy..."><%= user.bio %></textarea>
+            </div>
+          </div>
+
+          <!-- Academic & Skills (Relevant for Students) -->
+          <% if (user.role === 'student') { %>
+            <h5 class="fw-bold mb-3 text-secondary">Academic Credentials & Skill Passport</h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold small text-muted">College / University</label>
+                <input type="text" name="college" class="form-control" value="<%= user.college %>" placeholder="e.g. NIT / University College">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label fw-semibold small text-muted">Degree & Branch</label>
+                <input type="text" name="degree" class="form-control" value="<%= user.degree %>" placeholder="e.g. B.Tech CSE">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label fw-semibold small text-muted">Year of Study</label>
+                <input type="text" name="yearOfStudy" class="form-control" value="<%= user.yearOfStudy %>" placeholder="e.g. 3rd Year">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold small text-muted">Declared Skills (Comma Separated)</label>
+                <input type="text" name="skills" class="form-control" value="<%= (user.skills || []).join(', ') %>" placeholder="Node.js, Express, MongoDB, Figma, Python">
+                <div class="form-text small">Used for transparent rule-based skill match scoring by clients.</div>
+              </div>
+            </div>
+
+            <!-- Portfolio Links -->
+            <h5 class="fw-bold mb-3 text-secondary">Portfolio Links & Code Repositories</h5>
+            <div class="p-3 bg-light rounded-3 border mb-4">
+              <div class="row g-2 mb-2">
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold text-muted">Artifact Title</label>
+                  <input type="text" name="portfolioTitle" class="form-control form-control-sm" placeholder="e.g. Campus Event Hub" value="<%= user.portfolioLinks[0] ? user.portfolioLinks[0].title : '' %>">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold text-muted">Artifact URL</label>
+                  <input type="url" name="portfolioUrl" class="form-control form-control-sm" placeholder="https://github.com/..." value="<%= user.portfolioLinks[0] ? user.portfolioLinks[0].url : '' %>">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold text-muted">Description</label>
+                  <input type="text" name="portfolioDesc" class="form-control form-control-sm" placeholder="Short description" value="<%= user.portfolioLinks[0] ? user.portfolioLinks[0].description : '' %>">
+                </div>
+              </div>
+            </div>
+          <% } %>
+
+          <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+            <a href="/" class="btn btn-outline-custom">Cancel</a>
+            <button type="submit" class="btn btn-primary-custom">
+              <i class="bi bi-save me-1"></i>Save Profile Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

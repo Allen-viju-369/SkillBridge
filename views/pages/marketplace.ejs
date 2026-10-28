@@ -1,0 +1,186 @@
+<div class="container mb-5">
+  <!-- Marketplace Header & Breadcrumb -->
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Services Marketplace</li>
+      </ol>
+    </nav>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+      <div>
+        <h1 class="fw-bold mb-1">Browse Freelance Services</h1>
+        <p class="text-muted small mb-0">Discover skilled student developers, designers, and creators.</p>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+          <i class="bi bi-check2-circle me-1"></i><%= totalServices %> <%= totalServices === 1 ? 'Service' : 'Services' %> Available
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Filters Sidebar -->
+    <div class="col-lg-3">
+      <div class="p-3 bg-white rounded-3 border shadow-sm sticky-top" style="top: 85px; z-index: 10;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="fw-bold mb-0"><i class="bi bi-funnel me-1"></i>Filter & Refine</h6>
+          <a href="/marketplace" class="text-muted small text-decoration-none">Reset All</a>
+        </div>
+
+        <form action="/marketplace" method="GET" id="filterForm">
+          <!-- Keyword Search -->
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-secondary">Search Keywords</label>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-search"></i></span>
+              <input type="text" name="q" class="form-control border-start-0" placeholder="e.g. React, Figma" value="<%= query.q || '' %>">
+            </div>
+          </div>
+
+          <!-- Category Selection -->
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-secondary">Category</label>
+            <select name="category" class="form-select form-select-sm" onchange="document.getElementById('filterForm').submit()">
+              <option value="all">All Categories</option>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat.slug %>" <%= (activeCategory && activeCategory.slug === cat.slug) || query.category === cat.slug ? 'selected' : '' %>>
+                  <%= cat.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <!-- Price Range Slider -->
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label class="form-label small fw-semibold text-secondary mb-0">Max Budget</label>
+              <span id="maxPriceDisplay" class="badge bg-light text-primary border fw-bold">
+                ₹<%= query.maxPrice ? Number(query.maxPrice).toLocaleString('en-IN') : '10,000' %>
+              </span>
+            </div>
+            <input type="range" class="form-range" id="priceRangeSlider" min="500" max="25000" step="500" value="<%= query.maxPrice || 10000 %>">
+            <input type="hidden" name="maxPrice" id="maxPriceInput" value="<%= query.maxPrice || 10000 %>">
+          </div>
+
+          <!-- Delivery Speed -->
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-secondary">Delivery Speed</label>
+            <select name="maxDelivery" class="form-select form-select-sm">
+              <option value="">Any Duration</option>
+              <option value="2" <%= query.maxDelivery === '2' ? 'selected' : '' %>>Up to 2 Days (Express)</option>
+              <option value="5" <%= query.maxDelivery === '5' ? 'selected' : '' %>>Up to 5 Days</option>
+              <option value="10" <%= query.maxDelivery === '10' ? 'selected' : '' %>>Up to 10 Days</option>
+            </select>
+          </div>
+
+          <!-- Sorting Option -->
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-secondary">Sort Results</label>
+            <select name="sort" class="form-select form-select-sm">
+              <option value="newest" <%= query.sort === 'newest' ? 'selected' : '' %>>Newest First</option>
+              <option value="price_asc" <%= query.sort === 'price_asc' ? 'selected' : '' %>>Price: Low to High</option>
+              <option value="price_desc" <%= query.sort === 'price_desc' ? 'selected' : '' %>>Price: High to Low</option>
+              <option value="oldest" <%= query.sort === 'oldest' ? 'selected' : '' %>>Oldest First</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom btn-sm w-100">
+            <i class="bi bi-check-lg me-1"></i>Apply Filters
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="col-lg-9">
+      <% if (services && services.length > 0) { %>
+        <div class="row g-4">
+          <% services.forEach(service => { %>
+            <div class="col-md-6 col-xl-4">
+              <div class="custom-card h-100 d-flex flex-column">
+                <div class="position-relative">
+                  <img src="<%= service.thumbnailUrl || '/images/default-service.svg' %>" alt="<%= service.title %>" class="service-card-img w-100">
+                  <span class="badge bg-dark bg-opacity-75 text-white position-absolute top-0 end-0 m-2 small">
+                    <i class="bi bi-clock me-1"></i><%= service.deliveryDays %>d
+                  </span>
+                </div>
+
+                <div class="p-3 d-flex flex-column flex-grow-1">
+                  <div class="mb-2">
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">
+                      <i class="bi <%= service.category.icon %> me-1"></i><%= service.category.name %>
+                    </span>
+                  </div>
+
+                  <h6 class="fw-bold mb-2">
+                    <a href="/marketplace/<%= service._id %>" class="text-decoration-none text-dark stretched-link">
+                      <%= service.title %>
+                    </a>
+                  </h6>
+
+                  <p class="text-muted small mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                    <%= service.description %>
+                  </p>
+
+                  <!-- Skills Tags -->
+                  <div class="mb-3">
+                    <% (service.skills || []).slice(0, 3).forEach(skill => { %>
+                      <span class="badge-skill"><%= skill %></span>
+                    <% }) %>
+                  </div>
+
+                  <!-- Footer: Freelancer & Price -->
+                  <div class="pt-3 border-top d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
+                    <a href="/freelancers/<%= service.freelancer._id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                      <img src="<%= service.freelancer.profileImage || '/images/default-avatar.svg' %>" alt="<%= service.freelancer.name %>" class="rounded-circle" width="28" height="28" style="object-fit: cover;">
+                      <div class="d-flex flex-column">
+                        <span class="small fw-semibold lh-1"><%= service.freelancer.name %></span>
+                        <% if (service.freelancer.isVerified) { %>
+                          <span class="text-primary small" style="font-size: 0.65rem;"><i class="bi bi-patch-check-fill"></i> Verified</span>
+                        <% } %>
+                      </div>
+                    </a>
+                    <div class="text-end">
+                      <span class="text-muted small d-block" style="font-size: 0.65rem;">Starting at</span>
+                      <span class="fw-bold text-primary fs-6"><%= formatCurrency(service.price) %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+
+        <!-- Pagination -->
+        <% if (totalPages > 1) { %>
+          <nav aria-label="Page navigation" class="mt-5">
+            <ul class="pagination justify-content-center">
+              <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                <a class="page-link" href="/marketplace?<%= new URLSearchParams({ ...query, page: currentPage - 1 }).toString() %>" tabindex="-1">Previous</a>
+              </li>
+              <% for (let p = 1; p <= totalPages; p++) { %>
+                <li class="page-item <%= currentPage === p ? 'active' : '' %>">
+                  <a class="page-link" href="/marketplace?<%= new URLSearchParams({ ...query, page: p }).toString() %>"><%= p %></a>
+                </li>
+              <% } %>
+              <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                <a class="page-link" href="/marketplace?<%= new URLSearchParams({ ...query, page: currentPage + 1 }).toString() %>">Next</a>
+              </li>
+            </ul>
+          </nav>
+        <% } %>
+
+      <% } else { %>
+        <!-- Empty State -->
+        <div class="text-center py-5 bg-white rounded-3 border">
+          <div class="display-4 text-muted mb-3"><i class="bi bi-search"></i></div>
+          <h4 class="fw-bold mb-2">No Matching Services Found</h4>
+          <p class="text-muted small mb-4">Try adjusting your keyword search, removing filters, or broadening your budget.</p>
+          <a href="/marketplace" class="btn btn-outline-custom">Reset Search Filters</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

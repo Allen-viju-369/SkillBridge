@@ -1,0 +1,30 @@
+<div class="container py-5 my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 text-center">
+      <div class="bg-white p-5 rounded-4 border shadow-sm">
+        <div class="display-1 fw-bold text-<%= statusCode === 404 ? 'warning' : statusCode === 403 ? 'danger' : 'secondary' %> mb-2">
+          <%= statusCode || 500 %>
+        </div>
+        <h3 class="fw-bold mb-3"><%= title || 'An Error Occurred' %></h3>
+        <p class="text-muted mb-4">
+          <%= message || 'The requested action could not be completed.' %>
+        </p>
+
+        <% if (typeof stack !== 'undefined' && stack) { %>
+          <div class="text-start bg-light p-3 rounded-3 border mb-4 font-monospace small" style="max-height: 200px; overflow-y: auto;">
+            <%= stack %>
+          </div>
+        <% } %>
+
+        <div class="d-flex justify-content-center gap-2">
+          <a href="/" class="btn btn-primary-custom">
+            <i class="bi bi-house-door me-1"></i>Return to Home
+          </a>
+          <button type="button" class="btn btn-outline-custom" onclick="window.history.back()">
+            <i class="bi bi-arrow-left me-1"></i>Go Back
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

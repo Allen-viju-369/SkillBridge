@@ -1,0 +1,340 @@
+<div class="container mb-5">
+  <!-- Top Welcome Banner -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <div class="d-flex align-items-center gap-2">
+        <h1 class="fw-bold mb-0">Freelancer Studio</h1>
+        <% if (user.isVerified) { %>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">
+            <i class="bi bi-patch-check-fill me-1"></i>Verified Skill Passport
+          </span>
+        <% } %>
+      </div>
+      <p class="text-muted small mb-0">Manage your active listings, client orders, and delivery milestones.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="/freelancers/<%= user._id %>" class="btn btn-outline-custom btn-sm">
+        <i class="bi bi-award me-1"></i>View Skill Passport
+      </a>
+      <a href="/services/create" class="btn btn-primary-custom btn-sm">
+        <i class="bi bi-plus-lg me-1"></i>Post New Service
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Overview Metrics -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
+        <span class="text-muted small fw-semibold">Total Revenue Earned</span>
+        <div class="fs-3 fw-bold text-success mt-1"><%= formatCurrency(totalEarnings) %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">From <%= completedOrders.length %> completed projects</small>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
+        <span class="text-muted small fw-semibold">Active Commissions</span>
+        <div class="fs-3 fw-bold text-primary mt-1"><%= inProgressOrders.length %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">Currently in progress/delivery</small>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
+        <span class="text-muted small fw-semibold">Pending Requests</span>
+        <div class="fs-3 fw-bold text-warning mt-1"><%= pendingRequests.length %></div>
+        <small class="text-muted" style="font-size: 0.72rem;">Awaiting your acceptance</small>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
+        <span class="text-muted small fw-semibold">Reputation Score</span>
+        <div class="fs-3 fw-bold text-dark mt-1">
+          <%= avgRating %> <i class="bi bi-star-fill text-warning fs-5"></i>
+        </div>
+        <small class="text-muted" style="font-size: 0.72rem;">Based on <%= reviewCount %> client reviews</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Pending Requests Requiring Action -->
+  <% if (pendingRequests && pendingRequests.length > 0) { %>
+    <div class="card border-warning mb-4 shadow-sm rounded-4 overflow-hidden">
+      <div class="card-header bg-warning-subtle text-warning-emphasis fw-bold d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-bell-fill me-1"></i>New Client Service Requests (<%= pendingRequests.length %>)</span>
+        <span class="badge bg-warning text-dark">Action Required</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small">
+              <tr>
+                <th>Client</th>
+                <th>Service Requested</th>
+                <th>Price</th>
+                <th>Deadline</th>
+                <th>Requirements Preview</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% pendingRequests.forEach(req => { %>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <img src="<%= req.client ? req.client.profileImage : '/images/default-avatar.svg' %>" alt="Client" class="rounded-circle" width="30" height="30">
+                      <span class="fw-semibold small"><%= req.client ? req.client.name : 'Client' %></span>
+                    </div>
+                  </td>
+                  <td class="small fw-semibold"><%= req.service ? req.service.title : 'Service' %></td>
+                  <td class="small fw-bold text-primary"><%= formatCurrency(req.price) %></td>
+                  <td class="small text-muted"><%= formatDate(req.deadline) %></td>
+                  <td class="small text-muted text-truncate" style="max-width: 220px;">
+                    "<%= req.requirements %>"
+                  </td>
+                  <td class="text-end">
+                    <div class="d-flex justify-content-end gap-1">
+                      <!-- Accept Request -->
+                      <form action="/orders/<%= req._id %>/status" method="POST" class="d-inline">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="targetStatus" value="accepted">
+                        <button type="submit" class="btn btn-sm btn-success py-1 px-2">Accept</button>
+                      </form>
+                      <!-- Reject Request -->
+                      <form action="/orders/<%= req._id %>/status" method="POST" class="d-inline">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="targetStatus" value="rejected">
+                        <button type="submit" class="btn btn-sm btn-outline-danger py-1 px-2" onclick="return confirm('Decline this service request?')">Reject</button>
+                      </form>
+                      <a href="/orders/<%= req._id %>" class="btn btn-sm btn-light border py-1 px-2">View</a>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Main Dashboard Content Tabs -->
+  <ul class="nav nav-tabs mb-4" id="freelancerTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active fw-semibold" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders-pane" type="button" role="tab">
+        <i class="bi bi-kanban me-1"></i>Active Projects (<%= inProgressOrders.length %>)
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-semibold" id="services-tab" data-bs-toggle="tab" data-bs-target="#services-pane" type="button" role="tab">
+        <i class="bi bi-grid me-1"></i>My Service Listings (<%= services.length %>)
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-semibold" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed-pane" type="button" role="tab">
+        <i class="bi bi-check2-circle me-1"></i>Completed Work (<%= completedOrders.length %>)
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="freelancerTabsContent">
+    <!-- Tab 1: Active Projects -->
+    <div class="tab-pane fade show active" id="orders-pane" role="tabpanel">
+      <% if (inProgressOrders && inProgressOrders.length > 0) { %>
+        <div class="d-flex flex-column gap-3">
+          <% inProgressOrders.forEach(ord => { %>
+            <div class="bg-white p-4 rounded-4 border shadow-sm">
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3 pb-3 border-bottom">
+                <div>
+                  <span class="badge bg-<%= ord.status === 'in_progress' ? 'primary' : ord.status === 'delivered' ? 'info' : 'secondary' %> text-uppercase mb-1">
+                    Status: <%= ord.status.replace('_', ' ') %>
+                  </span>
+                  <h5 class="fw-bold mb-0"><%= ord.service ? ord.service.title : 'Order Project' %></h5>
+                </div>
+                <div class="text-md-end">
+                  <span class="fs-5 fw-bold text-primary"><%= formatCurrency(ord.price) %></span>
+                  <small class="text-muted d-block">Deadline: <%= formatDate(ord.deadline) %></small>
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <h6 class="small fw-bold text-muted mb-1">Commissioned By</h6>
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="<%= ord.client ? ord.client.profileImage : '/images/default-avatar.svg' %>" alt="Client" class="rounded-circle" width="32" height="32">
+                    <div>
+                      <div class="fw-semibold small"><%= ord.client ? ord.client.name : 'Client' %></div>
+                      <small class="text-muted"><%= ord.client ? ord.client.email : '' %></small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h6 class="small fw-bold text-muted mb-1">Requirements</h6>
+                  <p class="small text-secondary mb-0 bg-light p-2 rounded border">
+                    "<%= ord.requirements %>"
+                  </p>
+                </div>
+              </div>
+
+              <!-- Action Controls depending on state -->
+              <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                <a href="/orders/<%= ord._id %>" class="btn btn-outline-custom btn-sm">Full Order Details</a>
+                
+                <% if (ord.status === 'accepted') { %>
+                  <form action="/orders/<%= ord._id %>/status" method="POST" class="d-inline">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="targetStatus" value="in_progress">
+                    <button type="submit" class="btn btn-primary-custom btn-sm">
+                      <i class="bi bi-play-fill me-1"></i>Start Working
+                    </button>
+                  </form>
+                <% } else if (ord.status === 'in_progress') { %>
+                  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#deliverModal<%= ord._id %>">
+                    <i class="bi bi-send-check me-1"></i>Submit Final Delivery
+                  </button>
+                <% } else if (ord.status === 'delivered') { %>
+                  <span class="badge bg-info-subtle text-info border p-2 small">
+                    <i class="bi bi-hourglass-split me-1"></i>Work Delivered — Awaiting Client Approval
+                  </span>
+                <% } %>
+              </div>
+            </div>
+
+            <!-- Modal for Submitting Delivery -->
+            <div class="modal fade" id="deliverModal<%= ord._id %>" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 border-0 shadow-lg">
+                  <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Submit Completed Work</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <form action="/orders/<%= ord._id %>/status" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="targetStatus" value="delivered">
+                    <div class="modal-body p-4">
+                      <div class="mb-3">
+                        <label class="form-label small fw-semibold">Delivery Notes & Instructions <span class="text-danger">*</span></label>
+                        <textarea name="deliveryNotes" class="form-control" rows="4" placeholder="Explain what has been completed, instructions to test/view the deliverable..." minlength="5" required></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label small fw-semibold">Delivery URL / Repository / Artifact Link</label>
+                        <input type="url" name="deliveryUrl" class="form-control" placeholder="https://github.com/..." value="https://">
+                        <div class="form-text small">GitHub repo, Figma prototype, Google Drive, or staging site link.</div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-success">Confirm & Deliver</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5 bg-white rounded-4 border">
+          <i class="bi bi-inbox fs-2 text-muted mb-2 d-block"></i>
+          <h5 class="fw-bold mb-1">No Active Orders</h5>
+          <p class="text-muted small mb-0">When clients request your services and you accept them, they will appear here.</p>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Tab 2: My Service Listings -->
+    <div class="tab-pane fade" id="services-pane" role="tabpanel">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Your Published Services</h5>
+        <a href="/services/create" class="btn btn-primary-custom btn-sm">
+          <i class="bi bi-plus-lg me-1"></i>Add New Listing
+        </a>
+      </div>
+
+      <% if (services && services.length > 0) { %>
+        <div class="row g-3">
+          <% services.forEach(srv => { %>
+            <div class="col-md-6 col-lg-4">
+              <div class="custom-card p-3 h-100 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-<%= srv.isActive ? 'success' : 'secondary' %>-subtle text-<%= srv.isActive ? 'success' : 'secondary' %> small border">
+                    <%= srv.isActive ? 'Active' : 'Deactivated' %>
+                  </span>
+                  <span class="small text-muted"><%= srv.deliveryDays %> Days</span>
+                </div>
+                <h6 class="fw-bold mb-2">
+                  <a href="/marketplace/<%= srv._id %>" class="text-decoration-none text-dark">
+                    <%= srv.title %>
+                  </a>
+                </h6>
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <span class="fw-bold text-primary"><%= formatCurrency(srv.price) %></span>
+                  <div class="d-flex gap-1">
+                    <a href="/services/<%= srv._id %>/edit" class="btn btn-sm btn-light border py-1 px-2" title="Edit">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <form action="/services/<%= srv._id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this service?')">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <button type="submit" class="btn btn-sm btn-light border text-danger py-1 px-2" title="Delete">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5 bg-white rounded-4 border">
+          <i class="bi bi-card-list fs-2 text-muted mb-2 d-block"></i>
+          <h5 class="fw-bold mb-1">No Services Published Yet</h5>
+          <p class="text-muted small mb-3">Post your skills so clients across campus can discover and commission you.</p>
+          <a href="/services/create" class="btn btn-primary-custom btn-sm">Create First Service</a>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Tab 3: Completed Work -->
+    <div class="tab-pane fade" id="completed-pane" role="tabpanel">
+      <% if (completedOrders && completedOrders.length > 0) { %>
+        <div class="table-responsive bg-white rounded-4 border shadow-sm">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small">
+              <tr>
+                <th>Project</th>
+                <th>Client</th>
+                <th>Delivered Date</th>
+                <th>Earnings</th>
+                <th>Client Feedback</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% completedOrders.forEach(ord => { %>
+                <tr>
+                  <td class="small fw-semibold"><%= ord.service ? ord.service.title : 'Project' %></td>
+                  <td class="small"><%= ord.client ? ord.client.name : 'Client' %></td>
+                  <td class="small text-muted"><%= formatDate(ord.completedAt || ord.deliveredAt) %></td>
+                  <td class="small fw-bold text-success"><%= formatCurrency(ord.price) %></td>
+                  <td class="small">
+                    <% if (ord.hasReview) { %>
+                      <span class="badge bg-success-subtle text-success border"><i class="bi bi-star-fill text-warning me-1"></i>Reviewed</span>
+                    <% } else { %>
+                      <span class="text-muted small">No review yet</span>
+                    <% } %>
+                  </td>
+                  <td class="text-end">
+                    <a href="/orders/<%= ord._id %>" class="btn btn-sm btn-light border">Details</a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5 bg-white rounded-4 border">
+          <p class="text-muted small mb-0">No completed orders yet.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

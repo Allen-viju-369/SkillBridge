@@ -1,0 +1,71 @@
+<footer class="footer-custom">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <!-- Col 1: Brand & Academic Statement -->
+      <div class="col-lg-4 col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <img src="/images/logo.svg" alt="SkillBridge Logo" width="32" height="32" class="rounded">
+          <span class="fs-4 fw-bold text-white">SkillBridge</span>
+        </div>
+        <p class="text-secondary small mb-3">
+          A dedicated, transparent university marketplace bridging capable student freelancers with real-world client commissions. Powered by verifiable portfolios and the Student Skill Passport.
+        </p>
+        <div class="d-flex gap-2">
+          <span class="badge bg-dark border border-secondary text-secondary">Node.js</span>
+          <span class="badge bg-dark border border-secondary text-secondary">Express.js</span>
+          <span class="badge bg-dark border border-secondary text-secondary">MongoDB</span>
+          <span class="badge bg-dark border border-secondary text-secondary">EJS</span>
+          <span class="badge bg-dark border border-secondary text-secondary">Bootstrap 5</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Marketplace Discovery -->
+      <div class="col-lg-2 col-md-6 col-6">
+        <h6 class="text-white fw-bold mb-3">Marketplace</h6>
+        <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+          <li><a href="/marketplace">Browse All Services</a></li>
+          <li><a href="/marketplace?category=web-development">Web Development</a></li>
+          <li><a href="/marketplace?category=ui-ux-design">UI/UX Design</a></li>
+          <li><a href="/marketplace?category=mobile-app-development">Mobile Apps</a></li>
+          <li><a href="/marketplace?category=ai-data-python">Data & Python</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Portals & Roles -->
+      <div class="col-lg-3 col-md-6 col-6">
+        <h6 class="text-white fw-bold mb-3">User Portals</h6>
+        <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+          <li><a href="/auth/register?role=student">Become a Student Freelancer</a></li>
+          <li><a href="/auth/register?role=client">Hire Student Talent</a></li>
+          <li><a href="/auth/login">Account Sign In</a></li>
+          <li><a href="/dashboard/freelancer">Student Dashboard</a></li>
+          <li><a href="/admin">Administrator Portal</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Project Integrity -->
+      <div class="col-lg-3 col-md-6">
+        <h6 class="text-white fw-bold mb-3">Academic Evaluation</h6>
+        <p class="text-secondary small mb-2">
+          Developed for <strong>Web Technology III IA3</strong> college evaluation rubric. Satisfies complete backend architecture, relational data integrity, session security, and student skill passport innovation.
+        </p>
+        <div class="p-2 rounded bg-dark border border-secondary-subtle small text-light">
+          <i class="bi bi-shield-check text-success me-1"></i> Tested & Verified on Node v24 + MongoDB
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-secondary my-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-secondary">
+      <div>
+        &copy; <%= new Date().getFullYear() %> SkillBridge — Freelance Student Marketplace. All rights reserved.
+      </div>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <span>Academic Project Demonstration</span>
+        <span>•</span>
+        <span>B.Tech Computer Science</span>
+      </div>
+    </div>
+  </div>
+</footer>

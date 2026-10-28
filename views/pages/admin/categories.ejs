@@ -1,0 +1,104 @@
+<div class="container mb-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a href="/admin">Admin Hub</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Categories</li>
+        </ol>
+      </nav>
+      <h2 class="fw-bold mb-0">Marketplace Categories</h2>
+      <p class="text-muted small mb-0">Organize service domains and add specialized academic categories.</p>
+    </div>
+    <a href="/admin" class="btn btn-outline-custom btn-sm">
+      <i class="bi bi-arrow-left me-1"></i>Back to Hub
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <!-- Existing Categories List -->
+    <div class="col-lg-8">
+      <div class="card border-0 rounded-4 shadow-sm border overflow-hidden">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small">
+              <tr>
+                <th>Category</th>
+                <th>Slug</th>
+                <th>Services</th>
+                <th>Status</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% categories.forEach(cat => { %>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="rounded bg-light text-primary p-2 fs-5 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                        <i class="bi <%= cat.icon %>"></i>
+                      </div>
+                      <div>
+                        <div class="fw-semibold small"><%= cat.name %></div>
+                        <small class="text-muted text-truncate d-block" style="max-width: 250px;"><%= cat.description %></small>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="small font-monospace text-muted"><%= cat.slug %></td>
+                  <td>
+                    <span class="badge bg-light text-dark border">
+                      <%= categoryCounts[cat._id.toString()] || 0 %> Listings
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-<%= cat.isActive ? 'success' : 'secondary' %>">
+                      <%= cat.isActive ? 'Active' : 'Disabled' %>
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <form action="/admin/categories/<%= cat._id %>/toggle" method="POST" class="d-inline">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <button type="submit" class="btn btn-sm btn-outline-<%= cat.isActive ? 'secondary' : 'success' %> py-1 px-2">
+                        <%= cat.isActive ? 'Disable' : 'Enable' %>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Category Form -->
+    <div class="col-lg-4">
+      <div class="bg-white p-4 rounded-4 border shadow-sm">
+        <h5 class="fw-bold mb-3"><i class="bi bi-plus-circle text-primary me-2"></i>Add Category</h5>
+        <form action="/admin/categories" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-secondary">Category Name <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" placeholder="e.g. Cybersecurity & Pentesting" minlength="2" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-secondary">Bootstrap Icon Class</label>
+            <input type="text" name="icon" class="form-control font-monospace" placeholder="bi-shield-check" value="bi-briefcase">
+            <div class="form-text small" style="font-size: 0.72rem;">e.g. bi-code-slash, bi-palette, bi-cpu, bi-phone</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-secondary">Description</label>
+            <textarea name="description" class="form-control" rows="3" placeholder="Brief summary of services in this category..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom w-100">
+            <i class="bi bi-save me-1"></i>Create Category
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
