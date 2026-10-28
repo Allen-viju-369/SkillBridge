@@ -1,6 +1,6 @@
 /* ==========================================================================
    SkillBridge — Freelance Student Marketplace
-   Modern, Colorful & Interactive Design System
+   Custom Design System & Styling Tokens
    ========================================================================== */
 
 :root {
@@ -12,21 +12,19 @@
   --success-color: #10b981;
   --warning-color: #f59e0b;
   --danger-color: #ef4444;
-  --purple-color: #8b5cf6;
-  --pink-color: #ec4899;
   --text-dark: #1e293b;
   --text-muted: #64748b;
   --bg-light: #f8fafc;
   --bg-card: #ffffff;
   --border-color: #e2e8f0;
   --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
   --radius-full: 9999px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 6px 16px -2px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 16px 32px -4px rgba(79, 70, 229, 0.12);
-  --shadow-hover: 0 20px 35px -6px rgba(79, 70, 229, 0.18);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-hover: 0 20px 25px -5px rgb(79 70 229 / 0.12), 0 8px 10px -6px rgb(79 70 229 / 0.08);
 }
 
 body {
@@ -44,375 +42,87 @@ main {
 }
 
 /* ==========================================================================
-   Navigation Bar & Vector Brand Elements
+   Navigation Bar
    ========================================================================== */
 .navbar-custom {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1.5px solid rgba(226, 232, 240, 0.9);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
   transition: all 0.3s ease;
 }
 
-/* Vector Brand Mark Component (Zero broken image dependency) */
-.brand-logo-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 1.35rem;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-  flex-shrink: 0;
-}
-
-.brand-logo-icon-lg {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
-  font-size: 1.85rem;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
-}
-
-.brand-logo-icon-sm {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  font-size: 1rem;
-}
-
-.navbar-brand:hover .brand-logo-icon {
-  transform: translateY(-2px) rotate(-6deg) scale(1.05);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
-}
-
-.brand-title {
+.navbar-brand-badge {
+  background: linear-gradient(135deg, var(--primary-color), #818cf8);
+  color: white;
   font-weight: 800;
   font-size: 1.35rem;
-  letter-spacing: -0.6px;
-  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.brand-subtitle {
-  color: #6366f1;
-  font-weight: 800;
-  font-size: 0.65rem;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-/* User Avatar Initials Badge */
-.avatar-initials-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.85rem;
+  letter-spacing: -0.5px;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
-  flex-shrink: 0;
-  text-transform: uppercase;
+  gap: 8px;
+  text-decoration: none;
 }
 
 .nav-link {
-  font-weight: 600;
-  color: #334155;
+  font-weight: 500;
+  color: var(--text-dark);
   padding: 0.5rem 1rem !important;
   border-radius: var(--radius-sm);
   transition: all 0.2s ease;
 }
 
-.nav-link:hover {
+.nav-link:hover, .nav-link.active {
   color: var(--primary-color) !important;
   background-color: var(--primary-light);
-  transform: translateY(-1px);
-}
-
-.nav-link.active {
-  color: var(--primary-color) !important;
-  background-color: var(--primary-light);
-  font-weight: 700;
-}
-
-/* Pulse Beacon */
-.pulse-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #10b981;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  animation: pulseBeacon 2s infinite cubic-bezier(0.66, 0, 0, 1);
-  vertical-align: middle;
-}
-
-@keyframes pulseBeacon {
-  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 /* ==========================================================================
-   Hero Section & Aurora Mesh Gradients
+   Hero Section
    ========================================================================== */
 .hero-section {
-  background: radial-gradient(100% 120% at 50% 0%, rgba(99, 102, 241, 0.12) 0%, rgba(217, 70, 239, 0.07) 35%, rgba(6, 182, 212, 0.08) 65%, #ffffff 100%);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  padding: 4.5rem 0 3.8rem;
+  background: radial-gradient(circle at top right, #e0e7ff 0%, #f8fafc 60%);
+  padding: 5rem 0 4rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.08);
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: -100px;
-  right: -50px;
-  width: 480px;
-  height: 480px;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(6, 182, 212, 0.08) 50%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.hero-badge {
-  background: linear-gradient(135deg, rgba(238, 242, 255, 0.95), rgba(224, 231, 255, 0.85));
-  border: 1.5px solid #c7d2fe;
-  color: #4338ca;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);
-  letter-spacing: 0.3px;
 }
 
 .hero-title {
   font-weight: 800;
-  font-size: 3.35rem;
+  font-size: 3.25rem;
   line-height: 1.15;
-  letter-spacing: -1.2px;
-  color: #0f172a;
+  letter-spacing: -1px;
+  color: var(--secondary-color);
 }
 
 .hero-gradient-text {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 45%, #06b6d4 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
-  font-size: 1.18rem;
-  color: #475569;
+  font-size: 1.25rem;
+  color: var(--text-muted);
   max-width: 620px;
-  line-height: 1.65;
-}
-
-/* Elevated Search Bar Box */
-.hero-search-box {
-  background: #ffffff;
-  border: 2px solid #e0e7ff;
-  border-radius: 9999px;
-  padding: 6px 8px 6px 20px;
-  box-shadow: 0 14px 30px -5px rgba(79, 70, 229, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 580px;
-}
-
-.hero-search-box:focus-within {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.22), 0 16px 36px -5px rgba(79, 70, 229, 0.25);
-  transform: translateY(-2px);
-}
-
-/* Interactive Popular Skill Badges */
-.badge-skill-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 9999px;
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  color: #334155;
-  text-decoration: none;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.badge-skill-tag:hover {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-  color: #ffffff !important;
-  border-color: #4f46e5;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
 }
 
 /* ==========================================================================
-   Student Skill Passport Credential Card (Glassmorphic)
-   ========================================================================== */
-.passport-card {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 2px solid rgba(199, 210, 254, 0.85);
-  border-radius: 22px;
-  box-shadow: 0 20px 45px -10px rgba(79, 70, 229, 0.18), 0 1px 3px rgba(0, 0, 0, 0.05);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-.passport-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 25px 55px -10px rgba(79, 70, 229, 0.25);
-}
-
-.passport-ribbon {
-  position: absolute;
-  top: 18px;
-  right: -32px;
-  transform: rotate(45deg);
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  font-size: 0.68rem;
-  font-weight: 800;
-  padding: 4px 38px;
-  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-
-.passport-hero-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 1.55rem;
-  box-shadow: 0 6px 18px rgba(6, 182, 212, 0.35);
-  flex-shrink: 0;
-}
-
-/* Stat Metric Pills (Colorful, Interactive) */
-.stat-pill-students {
-  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-  border: 1.5px solid #c7d2fe;
-  color: #3730a3;
-  border-radius: 14px;
-  padding: 12px 6px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.stat-pill-projects {
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-  border: 1.5px solid #a7f3d0;
-  color: #065f46;
-  border-radius: 14px;
-  padding: 12px 6px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.stat-pill-rating {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border: 1.5px solid #fde68a;
-  color: #92400e;
-  border-radius: 14px;
-  padding: 12px 6px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.stat-pill-students:hover, .stat-pill-projects:hover, .stat-pill-rating:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-}
-
-/* ==========================================================================
-   Colorful Category Cards (Interactive & Tactile)
-   ========================================================================== */
-.category-card {
-  background: #ffffff;
-  border: 1.5px solid #f1f5f9;
-  border-radius: 16px;
-  padding: 18px 20px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  text-decoration: none !important;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-}
-
-.category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 30px -8px rgba(79, 70, 229, 0.16);
-  border-color: #c7d2fe;
-}
-
-.cat-icon-container {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.category-card:hover .cat-icon-container {
-  transform: scale(1.12) rotate(-5deg);
-}
-
-/* Vibrant Category Theme Accents */
-.cat-web { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); color: #2563eb; }
-.cat-design { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); color: #db2777; }
-.cat-mobile { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); color: #7c3aed; }
-.cat-ai { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); color: #059669; }
-.cat-writing { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); color: #d97706; }
-.cat-tutor { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); color: #0d9488; }
-
-.cat-arrow {
-  color: #cbd5e1;
-  font-size: 1.1rem;
-  transition: transform 0.25s ease, color 0.25s ease;
-  margin-left: auto;
-}
-
-.category-card:hover .cat-arrow {
-  transform: translateX(4px);
-  color: var(--primary-color);
-}
-
-/* ==========================================================================
-   Custom Cards & Visual Styling
+   Cards & Component Styling
    ========================================================================== */
 .custom-card {
   position: relative;
   background: var(--bg-card);
-  border: 1.5px solid #f1f5f9;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .custom-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
   border-color: #c7d2fe;
 }
@@ -427,7 +137,7 @@ main {
 .badge-skill {
   background-color: #f1f5f9;
   color: #334155;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.75rem;
   padding: 0.35rem 0.65rem;
   border-radius: var(--radius-sm);
@@ -437,15 +147,51 @@ main {
 }
 
 .badge-skill-match {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  background-color: #dcfce7;
   color: #15803d;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.75rem;
   padding: 0.35rem 0.65rem;
   border-radius: var(--radius-sm);
-  border: 1px solid #86efac;
+  border: 1px solid #bbf7d0;
   display: inline-block;
   margin: 2px;
+}
+
+/* ==========================================================================
+   Student Skill Passport Badge & Passport Container
+   ========================================================================== */
+.passport-card {
+  background: linear-gradient(145deg, #ffffff, #fbfcfe);
+  border: 2px solid #e0e7ff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.passport-ribbon {
+  position: absolute;
+  top: 18px;
+  right: -32px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 35px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.verified-badge {
+  color: #0284c7;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
 }
 
 /* ==========================================================================
@@ -495,7 +241,6 @@ main {
   background-color: var(--success-color);
   border-color: var(--success-color);
   color: white;
-  box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.2);
 }
 
 .timeline-step.active .step-circle {
@@ -519,237 +264,43 @@ main {
 }
 
 /* ==========================================================================
-   Comprehensive Button System & Micro-Interactions (Attractive & Tactile)
+   Buttons & Micro-interactions
    ========================================================================== */
-.btn {
-  border-radius: 12px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  padding: 0.65rem 1.45rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.btn:active {
-  transform: scale(0.97) !important;
-}
-
-/* Primary Button (Radiant Indigo/Violet Gradient) */
-.btn-primary,
 .btn-primary-custom {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 45%, #7c3aed 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-}
-
-.btn-primary:hover,
-.btn-primary-custom:hover {
-  background: linear-gradient(135deg, #4338ca 0%, #4f46e5 50%, #6d28d9 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
-  color: #ffffff !important;
-}
-
-/* Success Button (Emerald Glow) */
-.btn-success {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
-}
-
-.btn-success:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.45);
-  color: #ffffff !important;
-}
-
-/* Danger Button (Crimson Glow) */
-.btn-danger {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
-}
-
-.btn-danger:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(239, 68, 68, 0.45);
-  color: #ffffff !important;
-}
-
-/* Warning Button (Amber Glow) */
-.btn-warning {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
-}
-
-.btn-warning:hover {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.45);
-  color: #ffffff !important;
-}
-
-/* Info Button (Cyan/Sky Glow) */
-.btn-info {
-  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
-}
-
-.btn-info:hover {
-  background: linear-gradient(135deg, #0369a1 0%, #0891b2 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(6, 182, 212, 0.45);
-  color: #ffffff !important;
-}
-
-/* Light / Glassmorphic Button */
-.btn-light {
-  background: #ffffff !important;
-  border: 1.5px solid #e2e8f0 !important;
-  color: #334155 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.btn-light:hover {
-  background: #f8fafc !important;
-  border-color: #cbd5e1 !important;
-  color: #0f172a !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-}
-
-/* Outline Custom Button */
-.btn-outline-custom,
-.btn-outline-primary {
-  background: #ffffff !important;
-  border: 2px solid #c7d2fe !important;
-  color: #4f46e5 !important;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.08);
-}
-
-.btn-outline-custom:hover,
-.btn-outline-primary:hover {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
-  color: #ffffff !important;
-  border-color: transparent !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-}
-
-/* Pagination Buttons */
-.pagination .page-link {
-  border-radius: 10px !important;
-  margin: 0 4px;
-  border: 1.5px solid #e2e8f0;
-  color: #475569;
-  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
   transition: all 0.2s ease;
 }
 
-.pagination .page-link:hover {
-  background-color: #eef2ff;
-  border-color: #c7d2fe;
-  color: #4f46e5;
-  transform: translateY(-2px);
-}
-
-.pagination .page-item.active .page-link {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
-  border-color: #4f46e5 !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
-}
-
-/* Interactive Dropdowns */
-.dropdown-menu {
-  border-radius: 16px !important;
-  border: 1.5px solid #e2e8f0 !important;
-  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.16) !important;
-  padding: 8px !important;
-  animation: dropdownAnim 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes dropdownAnim {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.dropdown-item {
-  border-radius: 10px !important;
-  padding: 8px 14px !important;
-  font-weight: 600 !important;
-  font-size: 0.88rem !important;
-  color: #334155 !important;
-  transition: all 0.18s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #eef2ff !important;
-  color: #4f46e5 !important;
-  transform: translateX(4px);
-}
-
-/* Interactive Form Controls */
-.form-control,
-.form-select {
-  border-radius: 12px;
-  border: 1.5px solid #cbd5e1;
-  padding: 0.65rem 1rem;
-  transition: all 0.25s ease;
-}
-
-.form-control:focus,
-.form-select:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+.btn-primary-custom:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: white;
   transform: translateY(-1px);
+  box-shadow: 0 6px 12px -2px rgba(79, 70, 229, 0.3);
 }
 
-/* Workflow Step Box */
-.workflow-box {
-  background: #ffffff;
-  border: 1.5px solid #f1f5f9;
-  border-radius: 18px;
-  padding: 26px 20px;
-  height: 100%;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+.btn-outline-custom {
+  background-color: transparent;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-dark);
+  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
 }
 
-.workflow-box:hover {
-  transform: translateY(-5px);
-  border-color: #c7d2fe;
-  box-shadow: 0 16px 32px -6px rgba(79, 70, 229, 0.12);
+.btn-outline-custom:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background-color: var(--primary-light);
 }
 
-.workflow-icon-box {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  margin: 0 auto 16px;
-  transition: transform 0.3s ease;
-}
-
-.workflow-box:hover .workflow-icon-box {
-  transform: scale(1.1) rotate(-6deg);
-}
 
 /* Footer */
 .footer-custom {
