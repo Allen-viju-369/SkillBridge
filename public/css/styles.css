@@ -796,4 +796,42 @@ main {
 .cat-icon-5 { background: linear-gradient(135deg, #f43f5e, #ec4899); }
 .cat-icon-6 { background: linear-gradient(135deg, #10b981, #14b8a6); }
 
+/* ==========================================================================
+   Anti-Gravity Service Cards & Upgraded Avatar
+   ========================================================================== */
+.anti-gravity-service-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 22px; /* rounded-2xl */
+  padding: 1.5rem; /* p-6 */
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.anti-gravity-service-card:hover {
+  transform: translateY(-8px); /* hover:-translate-y-2 */
+  box-shadow: 0 20px 35px -5px rgba(59, 130, 246, 0.22), 0 8px 16px -4px rgba(168, 85, 247, 0.16); /* hover:shadow-blue-500/20 */
+  border-color: #bfdbfe;
+}
+
+.avatar-gradient-pill {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%); /* from-purple-500 to-blue-500 */
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35);
+  flex-shrink: 0;
+}
+
 
