@@ -23,9 +23,9 @@
   <div class="row g-4">
     <!-- Filters Sidebar -->
     <div class="col-lg-3">
-      <div class="p-3 bg-white rounded-3 border shadow-sm sticky-top" style="top: 85px; z-index: 10;">
+      <div class="p-3 dark-filter-panel rounded-4 border shadow-sm sticky-top" style="top: 85px; z-index: 10;">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h6 class="fw-bold mb-0"><i class="bi bi-funnel me-1"></i>Filter & Refine</h6>
+          <h6 class="fw-bold mb-0 text-white"><i class="bi bi-funnel me-1"></i>Filter & Refine</h6>
           <a href="/marketplace" class="text-muted small text-decoration-none">Reset All</a>
         </div>
 
@@ -120,7 +120,7 @@
 
                 <!-- 2. Middle Hierarchy: Heading, Description, Skills -->
                 <h5 class="fw-bold mb-2">
-                  <a href="/marketplace/<%= service._id %>" class="text-decoration-none text-dark stretched-link">
+                  <a href="/marketplace/<%= service._id %>" class="text-decoration-none text-white stretched-link">
                     <%= service.title %>
                   </a>
                 </h5>
@@ -132,21 +132,21 @@
                 <% if (service.skills && service.skills.length > 0) { %>
                   <div class="d-flex flex-wrap gap-1 mb-2">
                     <% service.skills.slice(0, 3).forEach(skill => { %>
-                      <span class="badge bg-light text-secondary border small px-2 py-1 rounded-pill" style="font-size: 0.72rem;"><%= skill %></span>
+                      <span class="badge-skill" style="font-size: 0.72rem;"><%= skill %></span>
                     <% }) %>
                   </div>
                 <% } %>
 
-                <!-- 3. Subtle Dividing Line (<hr class="border-gray-100">) -->
-                <hr class="my-3 border-0" style="height: 1px; background-color: #f1f5f9;">
+                <!-- 3. Subtle Dividing Line -->
+                <hr class="my-3 border-0" style="height: 1px; background-color: rgba(255, 255, 255, 0.1);">
 
                 <!-- 4. Bottom Anchored: Upgraded Gradient Avatar & Price -->
                 <div class="d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
                   <% if (service.freelancer) { %>
-                    <a href="/freelancers/<%= service.freelancer._id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark">
+                    <a href="/freelancers/<%= service.freelancer._id %>" class="d-flex align-items-center gap-2 text-decoration-none text-white">
                       <span class="avatar-gradient-pill"><%= (service.freelancer.name || 'G').charAt(0).toUpperCase() %></span>
                       <div>
-                        <span class="fw-bold small d-block lh-1 text-dark"><%= service.freelancer.name %></span>
+                        <span class="fw-bold small d-block lh-1 text-white"><%= service.freelancer.name %></span>
                         <% if (service.freelancer.isVerified) { %>
                           <span class="text-primary small" style="font-size: 0.68rem;"><i class="bi bi-patch-check-fill"></i> Verified</span>
                         <% } %>
@@ -155,7 +155,7 @@
                   <% } else { %>
                     <div class="d-flex align-items-center gap-2">
                       <span class="avatar-gradient-pill">G</span>
-                      <span class="small fw-bold text-dark">Student Freelancer</span>
+                      <span class="small fw-bold text-white">Student Freelancer</span>
                     </div>
                   <% } %>
 
