@@ -50,75 +50,103 @@
         </div>
       </div>
     <% } else { %>
-      <% 
-        const progressPercent = currentIndex >= 0 ? Math.min(100, Math.max(0, (currentIndex / (states.length - 1)) * 100)) : 0;
-      %>
-      <div class="interactive-timeline-wrapper mt-4 pt-3 pb-2">
-        <div class="timeline-progress-track">
-          <div class="timeline-progress-fill" style="width: <%= progressPercent %>%;"></div>
-        </div>
+      <div class="vertical-stepper-wrapper mt-4">
+        <% 
+          const steps = [
+            { num: 1, title: 'Pending', sub: 'Awaiting Response', icon: 'bi-check-lg', activeIcon: 'bi-hourglass-split', upcomingIcon: 'bi-clock' },
+            { num: 2, title: 'Accepted', sub: 'Terms Confirmed', icon: 'bi-check-lg', activeIcon: 'bi-check2-circle', upcomingIcon: 'bi-check2' },
+            { num: 3, title: 'In Progress', sub: 'In Development', icon: 'bi-box-seam', activeIcon: 'bi-box-seam', upcomingIcon: 'bi-gear' },
+            { num: 4, title: 'Delivered', sub: 'Ready for Review', icon: 'bi-flag-fill', activeIcon: 'bi-flag', upcomingIcon: 'bi-flag' },
+            { num: 5, title: 'Completed', sub: 'Project Finalized', icon: 'bi-trophy-fill', activeIcon: 'bi-trophy', upcomingIcon: 'bi-trophy' }
+          ];
+        %>
 
-        <div class="order-timeline">
-          <!-- Step 1: Pending -->
-          <div class="timeline-step <%= currentIndex >= 0 ? (currentIndex === 0 ? 'active' : 'completed') : '' %>">
-            <div class="step-circle-wrapper">
-              <div class="step-circle">
-                <i class="bi <%= currentIndex > 0 ? 'bi-check-lg' : 'bi-send-check' %>"></i>
-              </div>
-              <% if (currentIndex === 0) { %><span class="active-pulse-beacon"></span><% } %>
-            </div>
-            <div class="step-label">1. Pending</div>
-            <div class="step-subtext">Awaiting Response</div>
-          </div>
+        <% steps.forEach((st, idx) => { %>
+          <% 
+            const isCompleted = idx < currentIndex;
+            const isCurrent = idx === currentIndex;
+            const isUpcoming = idx > currentIndex;
 
-          <!-- Step 2: Accepted -->
-          <div class="timeline-step <%= currentIndex >= 1 ? (currentIndex === 1 ? 'active' : 'completed') : '' %>">
-            <div class="step-circle-wrapper">
-              <div class="step-circle">
-                <i class="bi <%= currentIndex > 1 ? 'bi-check-lg' : 'bi-check2-circle' %>"></i>
-              </div>
-              <% if (currentIndex === 1) { %><span class="active-pulse-beacon"></span><% } %>
-            </div>
-            <div class="step-label">2. Accepted</div>
-            <div class="step-subtext">Terms Confirmed</div>
-          </div>
+            let cardClass = 'v-card-upcoming';
+            let circleClass = 'v-circle-upcoming';
+            let titleClass = 'text-secondary';
+            let subClass = 'text-muted';
+            let displayIcon = st.upcomingIcon;
 
-          <!-- Step 3: In Progress -->
-          <div class="timeline-step <%= currentIndex >= 2 ? (currentIndex === 2 ? 'active' : 'completed') : '' %>">
-            <div class="step-circle-wrapper">
-              <div class="step-circle">
-                <i class="bi <%= currentIndex > 2 ? 'bi-check-lg' : 'bi-gear-wide-connected' %> <%= currentIndex === 2 ? 'spin-icon' : '' %>"></i>
-              </div>
-              <% if (currentIndex === 2) { %><span class="active-pulse-beacon"></span><% } %>
-            </div>
-            <div class="step-label">3. In Progress</div>
-            <div class="step-subtext">In Development</div>
-          </div>
+            if (isCompleted) {
+              cardClass = 'v-card-completed';
+              circleClass = 'v-circle-completed';
+              titleClass = 'text-dark';
+              displayIcon = st.icon;
+            } else if (isCurrent) {
+              cardClass = 'v-card-current';
+              circleClass = 'v-circle-current';
+              titleClass = 'text-primary fw-bold';
+              subClass = 'text-primary-emphasis';
+              displayIcon = st.activeIcon;
+            }
 
-          <!-- Step 4: Delivered -->
-          <div class="timeline-step <%= currentIndex >= 3 ? (currentIndex === 3 ? 'active' : 'completed') : '' %>">
-            <div class="step-circle-wrapper">
-              <div class="step-circle">
-                <i class="bi <%= currentIndex > 3 ? 'bi-check-lg' : 'bi-box-seam' %> <%= currentIndex === 3 ? 'bounce-icon' : '' %>"></i>
-              </div>
-              <% if (currentIndex === 3) { %><span class="active-pulse-beacon"></span><% } %>
-            </div>
-            <div class="step-label">4. Delivered</div>
-            <div class="step-subtext">Ready for Review</div>
-          </div>
+            let connectorClass = 'v-line-dotted-gray';
+            if (idx < currentIndex - 1) {
+              connectorClass = 'v-line-solid-green';
+            } else if (idx === currentIndex - 1) {
+              connectorClass = 'v-line-green-to-blue';
+            } else if (idx === currentIndex) {
+              connectorClass = 'v-line-dotted-blue';
+            }
+          %>
 
-          <!-- Step 5: Completed -->
-          <div class="timeline-step <%= currentIndex >= 4 ? 'completed' : '' %>">
-            <div class="step-circle-wrapper">
-              <div class="step-circle">
-                <i class="bi bi-award-fill <%= currentIndex >= 4 ? 'shine-icon' : '' %>"></i>
+          <div class="v-step-row position-relative">
+            <% if (idx < steps.length - 1) { %>
+              <div class="v-step-connector <%= connectorClass %>"></div>
+            <% } %>
+
+            <div class="v-step-card <%= cardClass %> p-3 p-md-4 rounded-4 mb-3 d-flex align-items-center justify-content-between gap-3 position-relative">
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
+                <!-- Left Circle Indicator with Sparkles / Halo -->
+                <div class="v-circle-wrapper position-relative flex-shrink-0">
+                  <div class="v-step-circle <%= circleClass %>">
+                    <i class="bi <%= displayIcon %>"></i>
+                  </div>
+                  <% if (isCompleted) { %>
+                    <span class="v-sparkles"></span>
+                  <% } else if (isCurrent) { %>
+                    <span class="v-pulse-ring"></span>
+                  <% } %>
+                </div>
+
+                <!-- Center Title, Subtext, & Progress Bar -->
+                <div class="flex-grow-1">
+                  <div class="v-step-title fw-bold <%= titleClass %>"><%= st.num %>. <%= st.title %></div>
+                  <div class="v-step-subtext <%= subClass %>"><%= st.sub %></div>
+
+                  <% if (st.num === 3 && (isCurrent || isCompleted)) { %>
+                    <!-- Animated Progress Bar (Matching Mockup) -->
+                    <div class="d-flex align-items-center gap-3 mt-2" style="max-width: 480px;">
+                      <div class="progress flex-grow-1" style="height: 8px; border-radius: 9999px; background: rgba(59, 130, 246, 0.15);">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                             style="width: <%= isCompleted ? '100%' : '65%' %>; background: linear-gradient(90deg, #2563eb 0%, #06b6d4 100%); border-radius: 9999px;">
+                        </div>
+                      </div>
+                      <span class="fw-bold fs-6 text-primary"><%= isCompleted ? '100%' : '65%' %></span>
+                    </div>
+                  <% } %>
+                </div>
               </div>
-              <% if (currentIndex === 4) { %><span class="active-pulse-beacon"></span><% } %>
+
+              <!-- Right Pill Status Badge -->
+              <div class="flex-shrink-0">
+                <% if (isCompleted) { %>
+                  <span class="badge-v-status badge-v-completed">Completed</span>
+                <% } else if (isCurrent) { %>
+                  <span class="badge-v-status badge-v-current">Current</span>
+                <% } else { %>
+                  <span class="badge-v-status badge-v-upcoming">Upcoming</span>
+                <% } %>
+              </div>
             </div>
-            <div class="step-label">5. Completed</div>
-            <div class="step-subtext">Project Finalized</div>
           </div>
-        </div>
+        <% }) %>
       </div>
     <% } %>
   </div>
