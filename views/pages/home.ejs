@@ -1,110 +1,107 @@
 <!-- Hero Section -->
-<section class="hero-section text-center text-lg-start mb-5 rounded-4 shadow-sm">
+<section class="hero-section text-center text-lg-start mb-5 shadow-sm">
   <div class="container py-4">
     <div class="row align-items-center g-5">
       <div class="col-lg-7">
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
-          <i class="bi bi-mortarboard-fill me-1"></i> University Freelance Ecosystem
+        <span class="badge px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm d-inline-flex align-items-center gap-2" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; font-size: 0.82rem;">
+          <i class="bi bi-mortarboard-fill"></i> University Freelance Ecosystem
         </span>
         <h1 class="hero-title mb-3">
-          Empowering University Talent. <br>
-          <span class="hero-gradient-text">Commission Real Projects.</span>
+          Empowering University<br>
+          Talent. Commission<br>
+          <span class="hero-gradient-text">Real Projects.</span>
         </h1>
-        <p class="hero-subtitle mb-4">
+        <p class="hero-subtitle mb-4 text-secondary">
           SkillBridge is the premier campus-driven freelance marketplace connecting capable university students with clients, faculty research labs, and startups.
         </p>
 
         <!-- Prominent Search Bar Form -->
-        <form action="/marketplace" method="GET" class="p-2 hero-search-bar rounded-pill shadow-sm border d-flex gap-2 mb-4" style="max-width: 580px;">
-          <div class="input-group border-0">
-            <span class="input-group-text bg-transparent border-0 text-muted ps-3">
-              <i class="bi bi-search"></i>
-            </span>
-            <input type="text" name="q" class="form-control border-0 shadow-none ps-2" placeholder="Search web dev, Figma, Python, content writing..." aria-label="Search services">
-          </div>
-          <button type="submit" class="btn btn-primary-custom rounded-pill px-4">
-            <i class="bi bi-search me-1"></i> Search
+        <form action="/marketplace" method="GET" class="p-2 hero-search-bar rounded-pill shadow-sm border d-flex align-items-center gap-2 mb-4 bg-white" style="max-width: 540px;">
+          <span class="ps-3 text-muted"><i class="bi bi-search fs-5"></i></span>
+          <input type="text" name="q" class="form-control border-0 shadow-none ps-2" placeholder="Search web dev, Figma, Python, content writing..." aria-label="Search services">
+          <button type="submit" class="btn rounded-circle d-flex align-items-center justify-content-center p-0 flex-shrink-0" style="width: 44px; height: 44px; background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); border: none;" title="Search">
+            <i class="bi bi-arrow-right text-white fs-5"></i>
           </button>
         </form>
 
         <!-- Quick Tags -->
-        <div class="d-flex flex-wrap align-items-center gap-2 small text-muted">
-          <span class="fw-semibold">Popular Skills:</span>
-          <a href="/marketplace?q=Node.js" class="badge-skill text-decoration-none"><i class="bi bi-filetype-js text-success"></i> Node.js</a>
-          <a href="/marketplace?q=Figma" class="badge-skill text-decoration-none"><i class="bi bi-palette-fill" style="color: #9333ea;"></i> Figma UI/UX</a>
-          <a href="/marketplace?q=Python" class="badge-skill text-decoration-none"><i class="bi bi-filetype-py text-warning"></i> Python</a>
-          <a href="/marketplace?q=React" class="badge-skill text-decoration-none"><i class="bi bi-lightning-charge-fill text-info"></i> React</a>
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <a href="/marketplace?q=Node.js" class="badge-pill-tag badge-node text-decoration-none">
+            <i class="bi bi-code-slash"></i> Node.js
+          </a>
+          <a href="/marketplace?q=Figma" class="badge-pill-tag badge-figma text-decoration-none">
+            <i class="bi bi-palette-fill"></i> Figma UI/UX
+          </a>
+          <a href="/marketplace?q=Python" class="badge-pill-tag badge-python text-decoration-none">
+            <i class="bi bi-filetype-py"></i> Python
+          </a>
+          <a href="/marketplace?q=React" class="badge-pill-tag badge-react text-decoration-none">
+            <i class="bi bi-lightning-charge-fill"></i> React
+          </a>
         </div>
       </div>
 
-      <!-- Hero Visual Showcase Card -->
+      <!-- Hero Visual Showcase Column -->
       <div class="col-lg-5">
-        <div class="passport-card p-4 position-relative">
-          <div class="passport-ribbon">VERIFIED</div>
-          
-          <!-- Passport Header -->
-          <div class="d-flex align-items-center gap-3 mb-3">
-            <div class="hero-crest-badge shadow-sm">
-              <i class="bi bi-mortarboard-fill text-white fs-4"></i>
-            </div>
-            <div>
-              <div class="d-flex align-items-center gap-2">
-                <h5 class="fw-bold mb-0">Student Skill Passport</h5>
-                <i class="bi bi-patch-check-fill text-primary" title="Verified Credential"></i>
-              </div>
-              <small class="text-muted">Academic Portfolios & Real Project Verification</small>
-            </div>
+        <!-- Floating Glassmorphic Student Skill Passport Card -->
+        <div class="passport-card-glass mb-3">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="fw-bold mb-0 text-dark">Student Skill Passport</h5>
+            <span class="badge px-3 py-1 rounded-pill small fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #3b82f6, #2563eb); font-size: 0.75rem;">
+              <i class="bi bi-patch-check-fill me-1"></i> VERIFIED
+            </span>
           </div>
 
           <!-- Featured Student Showcase Snapshot -->
-          <div class="hero-student-card p-3 rounded-3 mb-3 bg-white border">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="d-flex align-items-center gap-2">
-                <span class="user-avatar-badge" style="width: 36px; height: 36px; font-size: 1rem;">S</span>
+          <div class="p-3 bg-white rounded-4 border shadow-sm">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="d-flex align-items-center gap-3">
+                <span class="user-avatar-badge shadow-sm" style="width: 46px; height: 46px; font-size: 1.25rem;">S</span>
                 <div>
-                  <h6 class="fw-bold mb-0" style="font-size: 0.92rem;">Student Freelancer Profile</h6>
+                  <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.95rem;">Student Freelancer Profile</h6>
                   <span class="text-muted small" style="font-size: 0.75rem;"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Campus Verified</span>
                 </div>
               </div>
-              <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill small">
-                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> Available
+              <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 small fw-semibold">
+                <i class="bi bi-check-circle-fill me-1"></i> Available
               </span>
             </div>
             
             <div class="d-flex flex-wrap gap-1 mb-2">
-              <span class="badge bg-light text-dark border small" style="font-size: 0.72rem;">Full-Stack Web</span>
-              <span class="badge bg-light text-dark border small" style="font-size: 0.72rem;">Figma UI</span>
-              <span class="badge bg-light text-dark border small" style="font-size: 0.72rem;">Python</span>
-              <span class="badge bg-light text-dark border small" style="font-size: 0.72rem;">API Dev</span>
+              <span class="badge bg-success text-white rounded-pill px-2 py-1 small fw-semibold">Node.js</span>
+              <span class="badge rounded-pill px-2 py-1 small fw-semibold text-white" style="background: #ec4899;">Figma</span>
+              <span class="badge rounded-pill px-2 py-1 small fw-semibold text-white" style="background: #9333ea;">Figma UI/UX</span>
+              <span class="badge rounded-pill px-2 py-1 small fw-semibold text-white" style="background: #f97316;">Python</span>
+              <span class="badge rounded-pill px-2 py-1 small fw-semibold text-white" style="background: #06b6d4;">React</span>
             </div>
 
             <div class="d-flex justify-content-between align-items-center pt-2 border-top small text-muted" style="font-size: 0.75rem;">
-              <span><i class="bi bi-lightning-charge-fill text-warning me-1"></i>24-48h Delivery</span>
-              <span class="fw-semibold text-dark"><i class="bi bi-shield-check text-success me-1"></i>Zero Fake Reviews</span>
+              <span><i class="bi bi-lightning-charge-fill text-warning me-1"></i>Fast Delivery</span>
+              <span class="fw-semibold text-dark"><i class="bi bi-shield-check text-success me-1"></i>Verified Academic Reviews</span>
             </div>
           </div>
+        </div>
 
-          <!-- Live Real Stats Block -->
-          <div class="p-3 bg-light rounded-3 mb-3 border">
-            <div class="row text-center g-2">
-              <div class="col-4 border-end">
-                <div class="fs-4 fw-bold text-primary counter-val" data-target="<%= stats.totalStudents || 0 %>"><%= stats.totalStudents || 0 %></div>
-                <div class="small text-muted" style="font-size: 0.75rem;">Registered Students</div>
-              </div>
-              <div class="col-4 border-end">
-                <div class="fs-4 fw-bold text-success counter-val" data-target="<%= stats.completedOrders || 0 %>"><%= stats.completedOrders || 0 %></div>
-                <div class="small text-muted" style="font-size: 0.75rem;">Completed Projects</div>
-              </div>
-              <div class="col-4">
-                <div class="fs-4 fw-bold text-warning"><%= stats.platformAvgRating || '0.0' %> <i class="bi bi-star-fill fs-6"></i></div>
-                <div class="small text-muted" style="font-size: 0.75rem;">Client Rating</div>
-              </div>
+        <!-- 3 Eye-Catching Colored Stat Cards (Purple, Green, Blue) -->
+        <div class="row g-2">
+          <div class="col-4">
+            <div class="stat-card stat-purple p-3 text-center text-white">
+              <div class="fs-2 fw-bold counter-val" data-target="<%= stats.totalStudents || 3 %>"><%= stats.totalStudents || 3 %></div>
+              <div class="small fw-semibold opacity-90" style="font-size: 0.72rem; line-height: 1.2;">Registered<br>Students</div>
             </div>
           </div>
-          
-          <p class="small text-muted mb-0">
-            <i class="bi bi-check-circle-fill text-primary me-1"></i> Every review and completed order is backed by genuine MongoDB transaction records.
-          </p>
+          <div class="col-4">
+            <div class="stat-card stat-green p-3 text-center text-white">
+              <div class="fs-2 fw-bold counter-val" data-target="<%= stats.completedOrders || 1 %>"><%= stats.completedOrders || 1 %></div>
+              <div class="small fw-semibold opacity-90" style="font-size: 0.72rem; line-height: 1.2;">Completed<br>Projects</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="stat-card stat-blue p-3 text-center text-white">
+              <div class="fs-2 fw-bold"><%= stats.platformAvgRating || '3.0' %> <i class="bi bi-star-fill text-warning fs-5"></i></div>
+              <div class="small fw-semibold opacity-90" style="font-size: 0.72rem; line-height: 1.2;">Client<br>Rating</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -121,30 +118,74 @@
     <a href="/marketplace" class="btn btn-outline-custom btn-sm">View All Categories <i class="bi bi-arrow-right ms-1"></i></a>
   </div>
 
-  <% if (categories && categories.length > 0) { %>
-    <div class="row g-3">
-      <% categories.forEach(category => { %>
-        <div class="col-xl-4 col-md-6">
-          <a href="/marketplace?category=<%= category.slug %>" class="text-decoration-none text-dark">
-            <div class="custom-card category-card-item p-3 h-100 d-flex align-items-center gap-3">
-              <div class="rounded-3 cat-icon-box p-3 fs-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px;">
-                <i class="bi <%= category.icon %>"></i>
-              </div>
-              <div>
-                <h6 class="fw-bold mb-1"><%= category.name %></h6>
-                <p class="text-muted small mb-0 text-truncate" style="max-width: 240px;"><%= category.description %></p>
-              </div>
-            </div>
-          </a>
+  <div class="row g-3">
+    <div class="col-6 col-md-4 col-xl-2">
+      <a href="/marketplace?category=web-development" class="text-decoration-none text-dark h-100 d-block">
+        <div class="cat-feature-card">
+          <div class="cat-circle-icon cat-icon-1">
+            <i class="bi bi-code-slash"></i>
+          </div>
+          <h6 class="fw-bold mb-1" style="font-size: 0.95rem;">Web Development</h6>
+          <small class="text-muted" style="font-size: 0.72rem;">Full-stack & responsive apps</small>
         </div>
-      <% }) %>
+      </a>
     </div>
-  <% } else { %>
-    <div class="text-center py-4 bg-white rounded-4 border">
-      <i class="bi bi-tags fs-2 text-muted mb-2 d-block"></i>
-      <p class="text-muted small mb-0">No categories found yet.</p>
+    <div class="col-6 col-md-4 col-xl-2">
+      <a href="/marketplace?category=ui-ux-design" class="text-decoration-none text-dark h-100 d-block">
+        <div class="cat-feature-card">
+          <div class="cat-circle-icon cat-icon-2">
+            <i class="bi bi-palette-fill"></i>
+          </div>
+          <h6 class="fw-bold mb-1" style="font-size: 0.95rem;">UI/UX</h6>
+          <small class="text-muted" style="font-size: 0.72rem;">Figma prototypes & graphics</small>
+        </div>
+      </a>
     </div>
-  <% } %>
+    <div class="col-6 col-md-4 col-xl-2">
+      <a href="/marketplace?category=mobile-app-development" class="text-decoration-none text-dark h-100 d-block">
+        <div class="cat-feature-card">
+          <div class="cat-circle-icon cat-icon-3">
+            <i class="bi bi-phone"></i>
+          </div>
+          <h6 class="fw-bold mb-1" style="font-size: 0.95rem;">Mobile Apps</h6>
+          <small class="text-muted" style="font-size: 0.72rem;">iOS & Android interfaces</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <a href="/marketplace?category=ai-data-python" class="text-decoration-none text-dark h-100 d-block">
+        <div class="cat-feature-card">
+          <div class="cat-circle-icon cat-icon-4">
+            <i class="bi bi-cpu"></i>
+          </div>
+          <h6 class="fw-bold mb-1" style="font-size: 0.95rem;">AI & Data</h6>
+          <small class="text-muted" style="font-size: 0.72rem;">Python analysis & ML models</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <a href="/marketplace?category=content-writing" class="text-decoration-none text-dark h-100 d-block">
+        <div class="cat-feature-card">
+          <div class="cat-circle-icon cat-icon-5">
+            <i class="bi bi-pen"></i>
+          </div>
+          <h6 class="fw-bold mb-1" style="font-size: 0.95rem;">Content Writing</h6>
+          <small class="text-muted" style="font-size: 0.72rem;">Technical reports & copy</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <a href="/marketplace?category=business-tutoring" class="text-decoration-none text-dark h-100 d-block">
+        <div class="cat-feature-card">
+          <div class="cat-circle-icon cat-icon-6">
+            <i class="bi bi-mortarboard"></i>
+          </div>
+          <h6 class="fw-bold mb-1" style="font-size: 0.95rem;">Tutoring</h6>
+          <small class="text-muted" style="font-size: 0.72rem;">Code reviews & mentoring</small>
+        </div>
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- Featured Freelance Services -->
