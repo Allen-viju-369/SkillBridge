@@ -1,69 +1,45 @@
 /* ==========================================================================
    SkillBridge — Freelance Student Marketplace
-   Modern Dark Theme Design System & Anti-Gravity Visual Tokens
+   Custom Design System & Styling Tokens
    ========================================================================== */
 
-:root,
-[data-bs-theme="dark"],
-.dark-theme {
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: rgba(99, 102, 241, 0.16);
-  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  --primary-glow: 0 8px 30px -4px rgba(168, 85, 247, 0.45);
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --primary-glow: 0 8px 24px -4px rgba(79, 70, 229, 0.4);
   
   --secondary-color: #0f172a;
   --accent-cyan: #06b6d4;
-  --accent-purple: #a855f7;
+  --accent-purple: #9333ea;
   --accent-pink: #ec4899;
   --accent-orange: #f97316;
   --success-color: #10b981;
   --warning-color: #f59e0b;
   --danger-color: #ef4444;
   
-  /* Modern Dark Theme Color Palette */
-  --bg-dark-base: #090d16;
-  --bg-dark-elevated: #0f172a;
-  --bg-dark-card: #131d31;
-  --bg-card: #131d31;
-  --bg-card-hover: #19263f;
-  --bg-light: #090d16;
-  
-  --text-dark: #f8fafc;
-  --text-light: #ffffff;
-  --text-muted: #94a3b8;
-  --text-secondary: #cbd5e1;
-  
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(168, 85, 247, 0.5);
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --bg-light: #f8fafc;
+  --bg-card: #ffffff;
+  --border-color: #e2e8f0;
   
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
-  --radius-xl: 28px;
   --radius-full: 9999px;
   
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 8px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 6px 16px -2px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 20px 40px -8px rgba(168, 85, 247, 0.35), 0 0 25px rgba(99, 102, 241, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 20px 30px -6px rgba(79, 70, 229, 0.18), 0 8px 12px -4px rgba(79, 70, 229, 0.1);
 }
 
-/* ==========================================================================
-   Base & Global Typography in Dark Mode
-   ========================================================================== */
-html,
-body,
-.dark-theme {
+body {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  background-color: #090d16 !important;
-  background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.18), transparent),
-    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 50% 60%, rgba(6, 182, 212, 0.08) 0%, transparent 55%) !important;
-  background-attachment: fixed !important;
-  color: #f1f5f9 !important;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
   line-height: 1.6;
   min-height: 100vh;
   display: flex;
@@ -75,30 +51,14 @@ main {
   flex: 1 0 auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #ffffff;
-  letter-spacing: -0.5px;
-}
-
-a {
-  color: #818cf8;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-a:hover {
-  color: #a5b4fc;
-}
-
 /* ==========================================================================
-   Navigation Bar (Dark Translucent Glassmorphism)
+   Navigation Bar
    ========================================================================== */
 .navbar-custom {
-  background-color: rgba(9, 13, 22, 0.88) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: sticky;
   top: 0;
@@ -117,18 +77,18 @@ a:hover {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
   transition: all 0.3s ease;
 }
 
 .navbar-brand-badge:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.55);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
 }
 
 .nav-link {
   font-weight: 600;
-  color: #cbd5e1 !important;
+  color: var(--text-dark);
   padding: 0.55rem 1rem !important;
   border-radius: var(--radius-sm);
   transition: all 0.25s ease;
@@ -136,25 +96,24 @@ a:hover {
 }
 
 .nav-link:hover, .nav-link.active {
-  color: #ffffff !important;
-  background-color: rgba(99, 102, 241, 0.22) !important;
+  color: var(--primary-color) !important;
+  background-color: var(--primary-light);
   transform: translateY(-1px);
 }
 
 /* ==========================================================================
-   Hero Section & Cosmic Dark Atmosphere
+   Hero Section & Lively Floating Lighting
    ========================================================================== */
 .hero-section {
-  background: radial-gradient(circle at 15% 25%, rgba(99, 102, 241, 0.28) 0%, transparent 45%), 
-              radial-gradient(circle at 85% 25%, rgba(168, 85, 247, 0.25) 0%, transparent 50%), 
-              radial-gradient(circle at 50% 85%, rgba(6, 182, 212, 0.16) 0%, transparent 55%), 
-              linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(9, 13, 22, 0.98) 100%) !important;
+  background: radial-gradient(circle at 10% 20%, rgba(216, 180, 254, 0.45) 0%, transparent 40%), 
+              radial-gradient(circle at 90% 25%, rgba(147, 197, 253, 0.45) 0%, transparent 45%), 
+              radial-gradient(circle at 50% 80%, rgba(251, 207, 232, 0.35) 0%, transparent 55%), 
+              #f8faff;
   padding: 4.5rem 0 4rem;
   position: relative;
   overflow: hidden;
   border-radius: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .hero-section::before {
@@ -162,9 +121,9 @@ a:hover {
   position: absolute;
   top: -80px;
   right: -60px;
-  width: 440px;
-  height: 440px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(99, 102, 241, 0.1) 50%, transparent 70%);
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   animation: ambientFloat 8s ease-in-out infinite alternate;
@@ -175,9 +134,9 @@ a:hover {
   position: absolute;
   bottom: -60px;
   left: -60px;
-  width: 380px;
-  height: 380px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, rgba(244, 63, 94, 0.1) 50%, transparent 70%);
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(244, 63, 94, 0.08) 50%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   animation: ambientFloat 10s ease-in-out infinite alternate-reverse;
@@ -185,7 +144,7 @@ a:hover {
 
 @keyframes ambientFloat {
   0% { transform: translateY(0px) scale(1); }
-  100% { transform: translateY(22px) scale(1.08); }
+  100% { transform: translateY(20px) scale(1.08); }
 }
 
 .hero-title {
@@ -193,14 +152,14 @@ a:hover {
   font-size: 3.35rem;
   line-height: 1.15;
   letter-spacing: -1.2px;
-  color: #ffffff !important;
+  color: #0f172a;
 }
 
 .hero-gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #c084fc 50%, #f472b6 100%) !important;
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
   background-size: 200% auto;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   animation: gradientShimmer 6s linear infinite;
 }
 
@@ -212,182 +171,523 @@ a:hover {
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: #94a3b8 !important;
+  color: var(--text-muted);
   max-width: 620px;
 }
 
 /* ==========================================================================
-   Interactive Hero Search Bar (Dark Glass)
+   Interactive Hero Search Bar
    ========================================================================== */
 .hero-search-bar {
   transition: all 0.3s ease;
-  background: rgba(19, 27, 46, 0.92) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-}
-
-.hero-search-bar input {
-  background: transparent !important;
-  color: #ffffff !important;
-}
-
-.hero-search-bar input::placeholder {
-  color: #94a3b8 !important;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
 }
 
 .hero-search-bar:focus-within {
-  border-color: #818cf8 !important;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3), 0 12px 28px rgba(0, 0, 0, 0.6) !important;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 8px 20px rgba(0, 0, 0, 0.06) !important;
   transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   Anti-Gravity Floating Service Cards (Dark Obsidian Glass)
+   Vibrant Category Cards
    ========================================================================== */
-.anti-gravity-service-card {
+.category-card-item {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  border: 1.5px solid var(--border-color);
   position: relative;
-  background: rgba(19, 27, 46, 0.85) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 22px;
-  padding: 1.5rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  overflow: hidden;
+}
+
+.category-card-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.category-card-item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.category-card-item:hover::after {
+  opacity: 1;
+}
+
+/* Category Accent 1: Web Development (Indigo/Blue) */
+.col-xl-4:nth-child(1) .category-card-item .cat-icon-box {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #4338ca;
+}
+.col-xl-4:nth-child(1) .category-card-item:hover {
+  border-color: #818cf8;
+}
+.col-xl-4:nth-child(1) .category-card-item::after {
+  background: linear-gradient(90deg, #4f46e5, #06b6d4);
+}
+
+/* Category Accent 2: UI/UX (Purple/Pink) */
+.col-xl-4:nth-child(2) .category-card-item .cat-icon-box {
+  background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%);
+  color: #9333ea;
+}
+.col-xl-4:nth-child(2) .category-card-item:hover {
+  border-color: #c084fc;
+}
+.col-xl-4:nth-child(2) .category-card-item::after {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+}
+
+/* Category Accent 3: Writing (Amber/Orange) */
+.col-xl-4:nth-child(3) .category-card-item .cat-icon-box {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #d97706;
+}
+.col-xl-4:nth-child(3) .category-card-item:hover {
+  border-color: #fbbf24;
+}
+.col-xl-4:nth-child(3) .category-card-item::after {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+/* Category Accent 4: Video (Rose/Red) */
+.col-xl-4:nth-child(4) .category-card-item .cat-icon-box {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  color: #e11d48;
+}
+.col-xl-4:nth-child(4) .category-card-item:hover {
+  border-color: #fb7185;
+}
+.col-xl-4:nth-child(4) .category-card-item::after {
+  background: linear-gradient(90deg, #f43f5e, #fb923c);
+}
+
+/* Category Accent 5: Data & AI (Cyan/Teal) */
+.col-xl-4:nth-child(5) .category-card-item .cat-icon-box {
+  background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+  color: #0891b2;
+}
+.col-xl-4:nth-child(5) .category-card-item:hover {
+  border-color: #22d3ee;
+}
+.col-xl-4:nth-child(5) .category-card-item::after {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+}
+
+/* Category Accent 6: Business & Tutoring (Emerald/Green) */
+.col-xl-4:nth-child(6) .category-card-item .cat-icon-box {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #15803d;
+}
+.col-xl-4:nth-child(6) .category-card-item:hover {
+  border-color: #4ade80;
+}
+.col-xl-4:nth-child(6) .category-card-item::after {
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+}
+
+/* ==========================================================================
+   Cards & Component Styling
+   ========================================================================== */
+.custom-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: #c7d2fe;
+}
+
+.service-card-img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  transition: transform 0.4s ease;
+}
+
+.custom-card:hover .service-card-img {
+  transform: scale(1.02);
+}
+
+/* ==========================================================================
+   Interactive Colorful Skill Badges
+   ========================================================================== */
+.badge-skill {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 3px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.badge-skill:hover {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  color: #4338ca;
+  border-color: #a5b4fc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15);
+}
+
+.badge-skill-match {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid #86efac;
+  display: inline-flex;
+  align-items: center;
+  margin: 3px;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+}
+
+/* ==========================================================================
+   Student Skill Passport Badge & Passport Container
+   ========================================================================== */
+.passport-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+  border: 2px solid #e0e7ff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.12);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.passport-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -5px rgba(79, 70, 229, 0.2);
+  border-color: #c7d2fe;
+}
+
+.passport-ribbon {
+  position: absolute;
+  top: 18px;
+  right: -32px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 5px 38px;
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.verified-badge {
+  color: #0284c7;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Order Workflow Timeline
+   ========================================================================== */
+.order-timeline {
   display: flex;
-  flex-direction: column;
-  color: #f1f5f9 !important;
+  justify-content: space-between;
+  position: relative;
+  margin: 2.5rem 0;
 }
 
-.anti-gravity-service-card:hover {
-  transform: translateY(-8px) !important;
-  background: rgba(25, 36, 62, 0.95) !important;
-  border-color: rgba(168, 85, 247, 0.6) !important;
-  box-shadow: 0 20px 45px -5px rgba(168, 85, 247, 0.3), 0 0 25px rgba(59, 130, 246, 0.25) !important;
+.order-timeline::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 30px;
+  right: 30px;
+  height: 4px;
+  background-color: #e2e8f0;
+  z-index: 1;
 }
 
-.anti-gravity-service-card h5 a {
-  color: #ffffff !important;
-  transition: color 0.2s ease;
+.timeline-step {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  flex: 1;
 }
 
-.anti-gravity-service-card h5 a:hover {
-  color: #c084fc !important;
-}
-
-.anti-gravity-service-card p {
-  color: #cbd5e1 !important;
-}
-
-.anti-gravity-service-card hr {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.avatar-gradient-pill {
-  width: 38px;
-  height: 38px;
+.step-circle {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+  background-color: #ffffff;
+  border: 3px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  font-weight: 700;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.timeline-step.completed .step-circle {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #10b981;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+}
+
+.timeline-step.active .step-circle {
+  background: var(--primary-gradient);
+  border-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 0 0 6px rgba(79, 70, 229, 0.25);
+}
+
+.timeline-step.cancelled .step-circle,
+.timeline-step.rejected .step-circle {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-color: #ef4444;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+}
+
+.step-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* ==========================================================================
+   Buttons with Interactive Vibrancy & Click Ripple
+   ========================================================================== */
+.btn {
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary-custom {
+  background: var(--primary-gradient);
+  border: none;
+  color: white !important;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--primary-glow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary-custom:hover {
+  background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -4px rgba(79, 70, 229, 0.5);
+}
+
+.btn-outline-custom {
+  background-color: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: var(--text-dark);
+  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+}
+
+.btn-outline-custom:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
+}
+
+/* Ripple Element */
+.btn .ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: rippleAnimation 0.6s linear;
+  background-color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+@keyframes rippleAnimation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer-custom {
+  background: linear-gradient(180deg, #0f172a 0%, #090d16 100%);
+  color: #94a3b8;
+  padding: 3.5rem 0 2rem;
+  border-top: 1px solid #1e293b;
+  margin-top: 5rem;
+}
+
+.footer-custom a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.footer-custom a:hover {
+  color: #818cf8;
+  padding-left: 2px;
+}
+
+/* ==========================================================================
+   Brand & Hero Showcase Elements
+   ========================================================================== */
+.brand-logo-icon {
+  display: inline-flex;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar-brand:hover .brand-logo-icon {
+  transform: rotate(-4deg) scale(1.06);
+}
+
+.user-avatar-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.45);
-  flex-shrink: 0;
+  font-size: 0.82rem;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
 }
 
-/* ==========================================================================
-   Category Feature Cards (Floating Dark Panels)
-   ========================================================================== */
-.cat-feature-card {
-  background: rgba(19, 27, 46, 0.85) !important;
-  border-radius: 24px;
-  padding: 1.75rem 1rem 1.25rem;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  color: #f8fafc !important;
-}
-
-.cat-feature-card:hover {
-  transform: translateY(-6px);
-  background: rgba(28, 40, 68, 0.95) !important;
-  box-shadow: 0 20px 35px -5px rgba(168, 85, 247, 0.25), 0 0 20px rgba(99, 102, 241, 0.2);
-  border-color: rgba(168, 85, 247, 0.5) !important;
-}
-
-.cat-feature-card h6 {
-  color: #ffffff !important;
-}
-
-.cat-feature-card small {
-  color: #94a3b8 !important;
-}
-
-.cat-circle-icon {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
+.hero-crest-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
-  color: white;
-  font-size: 1.65rem;
-  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+}
+
+.hero-student-card {
+  background: #ffffff;
+  border: 1.5px solid #e0e7ff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-student-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.12);
+}
+
+/* ==========================================================================
+   Service Card Banner & Gradient Thumbnails
+   ========================================================================== */
+.service-card-banner {
+  height: 180px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+.service-gradient-thumb {
+  height: 180px;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #06b6d4 100%);
+  padding: 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.custom-card:hover .service-gradient-thumb {
+  transform: scale(1.05);
+}
+
+.thumb-icon-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
 }
 
-.cat-feature-card:hover .cat-circle-icon {
-  transform: scale(1.12) rotate(5deg);
+.custom-card:hover .thumb-icon-badge {
+  transform: scale(1.12) rotate(4deg);
 }
 
-.cat-icon-1 { background: linear-gradient(135deg, #d946ef, #8b5cf6); }
-.cat-icon-2 { background: linear-gradient(135deg, #f97316, #fb7185); }
-.cat-icon-3 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
-.cat-icon-4 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
-.cat-icon-5 { background: linear-gradient(135deg, #f43f5e, #ec4899); }
-.cat-icon-6 { background: linear-gradient(135deg, #10b981, #14b8a6); }
-
 /* ==========================================================================
-   Student Skill Passport Glass Showcase
+   Anti-Gravity Glassmorphism & Modern Colorful UI Tokens
    ========================================================================== */
 .passport-card-glass {
-  background: rgba(19, 27, 46, 0.78) !important;
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  border: 2px solid rgba(255, 255, 255, 0.95);
   border-radius: 28px;
-  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 20px 45px -10px rgba(168, 85, 247, 0.18), 0 10px 20px -5px rgba(59, 130, 246, 0.12);
   padding: 1.75rem;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-  color: #f8fafc !important;
 }
 
 .passport-card-glass:hover {
   transform: translateY(-5px);
-  box-shadow: 0 28px 55px -10px rgba(168, 85, 247, 0.3), 0 0 35px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 28px 55px -10px rgba(168, 85, 247, 0.25), 0 14px 25px -5px rgba(59, 130, 246, 0.15);
 }
 
-.passport-card-glass .bg-white,
-.passport-inner-card {
-  background: rgba(15, 22, 38, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: #f8fafc !important;
-}
-
-/* Stat Cards */
+/* 3 Eye-Catching Colorful Data Cards */
 .stat-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   border-radius: 20px !important;
@@ -399,21 +699,21 @@ a:hover {
 }
 
 .stat-purple {
-  background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-  box-shadow: 0 10px 25px -4px rgba(168, 85, 247, 0.5);
+  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+  box-shadow: 0 10px 22px -4px rgba(168, 85, 247, 0.45);
 }
 
 .stat-green {
-  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-  box-shadow: 0 10px 25px -4px rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 10px 22px -4px rgba(16, 185, 129, 0.45);
 }
 
 .stat-blue {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  box-shadow: 0 10px 25px -4px rgba(59, 130, 246, 0.5);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 10px 22px -4px rgba(59, 130, 246, 0.45);
 }
 
-/* Pill Tags */
+/* Colorful Pill Tags */
 .badge-pill-tag {
   display: inline-flex;
   align-items: center;
@@ -423,15 +723,14 @@ a:hover {
   font-weight: 700;
   font-size: 0.88rem;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .badge-pill-tag:hover {
   transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
   color: #ffffff !important;
 }
 
@@ -451,292 +750,88 @@ a:hover {
   background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
 }
 
-/* ==========================================================================
-   Global Theme Adapters (Turns all Cards, Inputs, Tables into Dark Mode)
-   ========================================================================== */
-.dark-theme .bg-white,
-[data-bs-theme="dark"] .bg-white,
-.dark-theme .card,
-[data-bs-theme="dark"] .card,
-.dark-theme .custom-card,
-[data-bs-theme="dark"] .custom-card,
-.dark-filter-panel,
-.dark-step-card {
-  background-color: rgba(19, 27, 46, 0.88) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: #f8fafc !important;
-}
-
-.dark-theme .bg-light,
-[data-bs-theme="dark"] .bg-light {
-  background-color: rgba(15, 22, 38, 0.92) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #e2e8f0 !important;
-}
-
-.dark-theme .text-dark,
-[data-bs-theme="dark"] .text-dark {
-  color: #f8fafc !important;
-}
-
-.dark-theme .text-secondary,
-[data-bs-theme="dark"] .text-secondary {
-  color: #cbd5e1 !important;
-}
-
-.dark-theme .text-muted,
-[data-bs-theme="dark"] .text-muted {
-  color: #94a3b8 !important;
-}
-
-.dark-theme .border,
-[data-bs-theme="dark"] .border,
-.dark-theme .border-top,
-[data-bs-theme="dark"] .border-top,
-.dark-theme .border-bottom,
-[data-bs-theme="dark"] .border-bottom,
-.dark-theme .border-start,
-[data-bs-theme="dark"] .border-start,
-.dark-theme .border-end,
-[data-bs-theme="dark"] .border-end {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Form Controls */
-.dark-theme .form-control,
-.dark-theme .form-select,
-[data-bs-theme="dark"] .form-control,
-[data-bs-theme="dark"] .form-select {
-  background-color: rgba(15, 22, 38, 0.95) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #f8fafc !important;
-}
-
-.dark-theme .form-control:focus,
-.dark-theme .form-select:focus,
-[data-bs-theme="dark"] .form-control:focus,
-[data-bs-theme="dark"] .form-select:focus {
-  background-color: rgba(20, 30, 52, 0.98) !important;
-  border-color: #818cf8 !important;
-  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.3) !important;
-  color: #ffffff !important;
-}
-
-.dark-theme .input-group-text,
-[data-bs-theme="dark"] .input-group-text {
-  background-color: rgba(25, 36, 60, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #cbd5e1 !important;
-}
-
-/* Range Slider */
-.form-range::-webkit-slider-runnable-track {
-  background-color: rgba(255, 255, 255, 0.15) !important;
-}
-.form-range::-webkit-slider-thumb {
-  background: #a855f7 !important;
-  box-shadow: 0 0 12px #a855f7 !important;
-}
-
-/* Buttons */
-.btn-primary-custom {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  font-weight: 600;
-  padding: 0.7rem 1.5rem;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45) !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.25s ease;
-}
-
-.btn-primary-custom:hover {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.55) !important;
-}
-
-.btn-outline-custom {
-  background-color: rgba(255, 255, 255, 0.06) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
-  color: #f8fafc !important;
-  font-weight: 600;
-  padding: 0.65rem 1.4rem;
-  border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
-}
-
-.btn-outline-custom:hover {
-  border-color: #818cf8 !important;
-  color: #ffffff !important;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.35) 0%, rgba(168, 85, 247, 0.35) 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35) !important;
-}
-
-/* Dropdowns & Modals */
-.dropdown-menu {
-  background-color: #131d31 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7) !important;
-}
-
-.dropdown-item {
-  color: #cbd5e1 !important;
-}
-
-.dropdown-item:hover {
-  background-color: rgba(99, 102, 241, 0.25) !important;
-  color: #ffffff !important;
-}
-
-.modal-content {
-  background-color: #131d31 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #f8fafc !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
-}
-
-/* Accordions */
-.accordion-item {
-  background-color: rgba(19, 27, 46, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-.accordion-button {
-  background-color: rgba(19, 27, 46, 0.85) !important;
-  color: #f8fafc !important;
-}
-
-.accordion-button:not(.collapsed) {
-  background-color: rgba(27, 38, 64, 0.95) !important;
-  color: #a5b4fc !important;
-}
-
-/* Badges */
-.badge-skill {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #cbd5e1 !important;
-  font-weight: 600;
-  font-size: 0.78rem;
-  padding: 0.4rem 0.75rem;
-  border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin: 3px;
-  transition: all 0.2s ease;
-}
-
-.badge-skill:hover {
-  background: rgba(99, 102, 241, 0.25) !important;
-  color: #ffffff !important;
-  border-color: #818cf8 !important;
-  transform: translateY(-2px);
-}
-
-/* Tables */
-.table {
-  color: #e2e8f0 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.table th {
-  background-color: rgba(15, 22, 38, 0.95) !important;
-  color: #cbd5e1 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.table td {
-  background-color: rgba(19, 27, 46, 0.85) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-/* Order Workflow Timeline */
-.order-timeline::before {
-  content: '';
-  position: absolute;
-  top: 24px;
-  left: 30px;
-  right: 30px;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.15) !important;
-  z-index: 1;
-}
-
-.timeline-step {
-  position: relative;
-  z-index: 2;
+/* 6 Floating Colorful Category Cards */
+.cat-feature-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.75rem 1rem 1.25rem;
   text-align: center;
-  flex: 1;
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
 }
 
-.step-circle {
-  width: 48px;
-  height: 48px;
+.cat-feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -5px rgba(99, 102, 241, 0.16);
+  border-color: #c7d2fe;
+}
+
+.cat-circle-icon {
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  background-color: #131d31 !important;
-  border: 3px solid rgba(255, 255, 255, 0.2) !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 10px;
-  font-weight: 700;
-  color: #94a3b8 !important;
-  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  color: white;
+  font-size: 1.65rem;
+  box-shadow: 0 8px 20px -2px rgba(0, 0, 0, 0.16);
+  transition: transform 0.3s ease;
 }
 
-.timeline-step.completed .step-circle {
-  background: linear-gradient(135deg, #10b981, #059669) !important;
-  border-color: #10b981 !important;
-  color: white !important;
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.3) !important;
+.cat-feature-card:hover .cat-circle-icon {
+  transform: scale(1.1) rotate(4deg);
 }
 
-.timeline-step.active .step-circle {
-  background: var(--primary-gradient) !important;
-  border-color: var(--primary-color) !important;
-  color: white !important;
-  box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.35) !important;
+.cat-icon-1 { background: linear-gradient(135deg, #d946ef, #8b5cf6); }
+.cat-icon-2 { background: linear-gradient(135deg, #f97316, #fb7185); }
+.cat-icon-3 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+.cat-icon-4 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+.cat-icon-5 { background: linear-gradient(135deg, #f43f5e, #ec4899); }
+.cat-icon-6 { background: linear-gradient(135deg, #10b981, #14b8a6); }
+
+/* ==========================================================================
+   Anti-Gravity Service Cards & Upgraded Avatar
+   ========================================================================== */
+.anti-gravity-service-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 22px; /* rounded-2xl */
+  padding: 1.5rem; /* p-6 */
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-/* User & Freelancer Avatars */
-.user-avatar-badge {
-  width: 32px;
-  height: 32px;
+.anti-gravity-service-card:hover {
+  transform: translateY(-8px); /* hover:-translate-y-2 */
+  box-shadow: 0 20px 35px -5px rgba(59, 130, 246, 0.22), 0 8px 16px -4px rgba(168, 85, 247, 0.16); /* hover:shadow-blue-500/20 */
+  border-color: #bfdbfe;
+}
+
+.avatar-gradient-pill {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--primary-gradient);
+  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%); /* from-purple-500 to-blue-500 */
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.85rem;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35);
+  flex-shrink: 0;
 }
 
-/* Footer */
-.footer-custom {
-  background: #060911 !important;
-  color: #94a3b8;
-  padding: 3.5rem 0 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  margin-top: 5rem;
-}
 
-.footer-custom a {
-  color: #cbd5e1;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.footer-custom a:hover {
-  color: #818cf8;
-  padding-left: 2px;
-}

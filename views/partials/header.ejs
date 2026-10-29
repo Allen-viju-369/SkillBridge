@@ -23,8 +23,8 @@
           </svg>
         </div>
         <div class="d-flex flex-column">
-          <span class="fw-bold text-white lh-1" style="font-size: 1.25rem;">SkillBridge</span>
-          <span class="text-secondary fw-semibold" style="font-size: 0.68rem; letter-spacing: 0.3px; color: #94a3b8 !important;">FREELANCE STUDENT MARKETPLACE</span>
+          <span class="fw-bold text-dark lh-1" style="font-size: 1.25rem;">SkillBridge</span>
+          <span class="text-muted fw-semibold" style="font-size: 0.68rem; letter-spacing: 0.3px;">FREELANCE STUDENT MARKETPLACE</span>
         </div>
       </a>
 
@@ -79,10 +79,10 @@
         <div class="d-flex align-items-center gap-2">
           <% if (isLoggedIn) { %>
             <div class="dropdown">
-              <button class="btn d-flex align-items-center gap-2 border py-1 px-3 rounded-pill dropdown-toggle shadow-sm text-white" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15) !important;">
+              <button class="btn btn-light d-flex align-items-center gap-2 border py-1 px-3 rounded-pill dropdown-toggle shadow-sm" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background: rgba(255, 255, 255, 0.9);">
                 <span class="user-avatar-badge" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); width: 30px; height: 30px; font-size: 0.85rem;"><%= (currentUser.name || 'U').charAt(0).toUpperCase() %></span>
-                <span class="fw-semibold text-truncate text-white" style="max-width: 140px;"><%= currentUser.name %></span>
-                <span class="badge border rounded-pill" style="font-size: 0.7rem; background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border-color: rgba(99, 102, 241, 0.3) !important;">
+                <span class="fw-semibold text-truncate" style="max-width: 140px;"><%= currentUser.name %></span>
+                <span class="badge bg-secondary-subtle text-secondary border rounded-pill" style="font-size: 0.7rem;">
                   <%= currentUser.role.toUpperCase() %>
                 </span>
               </button>
