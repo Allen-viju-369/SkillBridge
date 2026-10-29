@@ -62,12 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const priceRange = document.getElementById('priceRangeSlider');
   const priceDisplay = document.getElementById('maxPriceDisplay');
   const priceInput = document.getElementById('maxPriceInput');
-  if (priceRange && priceDisplay && priceInput) {
-    priceRange.addEventListener('input', (e) => {
-      const val = e.target.value;
+  if (priceRange && priceDisplay) {
+    const syncPrice = (val) => {
       priceDisplay.textContent = `₹${Number(val).toLocaleString('en-IN')}`;
-      priceInput.value = val;
-    });
+      if (priceInput) priceInput.value = val;
+    };
+    priceRange.addEventListener('input', (e) => syncPrice(e.target.value));
+    priceRange.addEventListener('change', (e) => syncPrice(e.target.value));
   }
 
   // 5. Client-side Form Validation Enhancement

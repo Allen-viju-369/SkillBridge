@@ -55,13 +55,21 @@
           <!-- Price Range Slider -->
           <div class="mb-3">
             <div class="d-flex justify-content-between align-items-center mb-1">
-              <label class="form-label small fw-semibold text-secondary mb-0">Max Budget</label>
-              <span id="maxPriceDisplay" class="badge bg-light text-primary border fw-bold">
+              <label for="priceRangeSlider" class="form-label small fw-semibold text-secondary mb-0">Max Budget</label>
+              <span id="maxPriceDisplay" class="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold fs-6 px-2 py-1">
                 ₹<%= query.maxPrice ? Number(query.maxPrice).toLocaleString('en-IN') : '10,000' %>
               </span>
             </div>
-            <input type="range" class="form-range" id="priceRangeSlider" min="500" max="25000" step="500" value="<%= query.maxPrice || 10000 %>">
+            <input type="range" class="form-range" id="priceRangeSlider" min="500" max="25000" step="500" 
+                   value="<%= query.maxPrice || 10000 %>"
+                   oninput="updateBudgetSlider(this.value)"
+                   onchange="updateBudgetSlider(this.value)">
             <input type="hidden" name="maxPrice" id="maxPriceInput" value="<%= query.maxPrice || 10000 %>">
+            <div class="d-flex justify-content-between text-muted" style="font-size: 0.72rem;">
+              <span>₹500</span>
+              <span>₹12,500</span>
+              <span>₹25,000</span>
+            </div>
           </div>
 
           <!-- Delivery Speed -->
@@ -205,3 +213,24 @@
     </div>
   </div>
 </div>
+
+<script>
+  function updateBudgetSlider(val) {
+    var display = document.getElementById('maxPriceDisplay');
+    var input = document.getElementById('maxPriceInput');
+    if (display) {
+      display.textContent = '₹' + Number(val).toLocaleString('en-IN');
+    }
+    if (input) {
+      input.value = val;
+    }
+  }
+
+  // Ensure initial value sync on load
+  (function() {
+    var slider = document.getElementById('priceRangeSlider');
+    if (slider) {
+      updateBudgetSlider(slider.value);
+    }
+  })();
+</script>
